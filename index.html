@@ -1,85 +1,185 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>شهادة شكر وتقدير — بوتات زيد</title>
 
-  <!-- الخطوط الاحترافية سيتم تنسيقها من style.css -->
-  <link rel="stylesheet" href="style.css?v=4">
+  <!-- =====================================================
+       الخطوط والتنسيق
+  ====================================================== -->
+
+  <link rel="stylesheet" href="style.css?v=5">
+
 </head>
+
 
 <body>
 
   <div class="main-container">
 
+
     <!-- =====================================================
          لوحة التحكم
     ====================================================== -->
+
     <aside class="controls no-print">
 
+
+      <!-- رأس اللوحة -->
+
       <div class="panel-header">
-        <span class="panel-badge">زيد</span>
+
+        <span class="panel-badge">
+          زيد
+        </span>
 
         <div>
-          <h2>مصمم الشهادة</h2>
-          <p>شهادة شكر وتقدير رسمية</p>
+
+          <h2>
+            مصمم الشهادة
+          </h2>
+
+          <p>
+            شهادة شكر وتقدير رسمية
+          </p>
+
         </div>
+
       </div>
+
+
+
+      <!-- ===================================================
+           القسم الأول
+      ==================================================== -->
 
       <div class="control-section">
 
         <div class="section-title">
-          <span class="section-icon">01</span>
-          <span>الهوية والمكرَّم</span>
+
+          <span class="section-icon">
+            01
+          </span>
+
+          <span>
+            الهوية والمكرَّم
+          </span>
+
         </div>
 
+
+
+        <!-- الشعار -->
+
         <div class="form-group">
-          <label for="logoUpload">الشعار الرسمي</label>
+
+          <label for="logoUpload">
+            الشعار الرسمي
+          </label>
+
 
           <div class="upload-box">
-            <input type="file" id="logoUpload" accept="image/*">
+
+            <input
+              type="file"
+              id="logoUpload"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml"
+            >
+
 
             <div class="upload-content">
-              <span class="upload-icon">↑</span>
-              <strong>رفع شعار بوتات زيد</strong>
-              <small>PNG / JPG / WEBP</small>
+
+              <span class="upload-icon">
+                ↑
+              </span>
+
+              <strong>
+                رفع شعار بوتات زيد
+              </strong>
+
+              <small>
+                PNG / JPG / WEBP / SVG
+              </small>
+
             </div>
+
           </div>
+
         </div>
 
+
+
+        <!-- اسم المكرم -->
+
         <div class="form-group">
-          <label for="nameInput">اسم المُكرَّم</label>
+
+          <label for="nameInput">
+            اسم المُكرَّم
+          </label>
+
           <input
             type="text"
             id="nameInput"
             value="أحميدة جمال"
             placeholder="اكتب الاسم"
+            autocomplete="off"
           >
+
         </div>
 
+
+
+        <!-- الصفة -->
+
         <div class="form-group">
-          <label for="roleInput">الصفة / الدور</label>
+
+          <label for="roleInput">
+            الصفة / الدور
+          </label>
+
           <input
             type="text"
             id="roleInput"
             value="المشرف على بوت سنة ثالثة ثانوي (بوت زيد)"
             placeholder="الصفة أو الدور"
+            autocomplete="off"
           >
+
         </div>
 
       </div>
 
 
+
+      <!-- ===================================================
+           القسم الثاني
+      ==================================================== -->
+
       <div class="control-section">
 
         <div class="section-title">
-          <span class="section-icon">02</span>
-          <span>محتوى الشهادة</span>
+
+          <span class="section-icon">
+            02
+          </span>
+
+          <span>
+            محتوى الشهادة
+          </span>
+
         </div>
 
+
+
         <div class="form-group">
-          <label for="messageInput">نص التقدير</label>
+
+          <label for="messageInput">
+            نص التقدير
+          </label>
+
 
           <textarea
             id="messageInput"
@@ -92,33 +192,64 @@
       </div>
 
 
+
+      <!-- ===================================================
+           القسم الثالث
+      ==================================================== -->
+
       <div class="control-section">
 
         <div class="section-title">
-          <span class="section-icon">03</span>
-          <span>بيانات الإصدار</span>
+
+          <span class="section-icon">
+            03
+          </span>
+
+          <span>
+            بيانات الإصدار
+          </span>
+
         </div>
+
+
 
         <div class="form-row">
 
+
+          <!-- التاريخ -->
+
           <div class="form-group">
-            <label for="dateInput">التاريخ</label>
+
+            <label for="dateInput">
+              التاريخ
+            </label>
 
             <input
               type="text"
               id="dateInput"
               value="2026/08/12"
+              autocomplete="off"
             >
+
           </div>
 
+
+
+          <!-- جهة الإصدار -->
+
           <div class="form-group">
-            <label for="senderInput">جهة الإصدار</label>
+
+            <label for="senderInput">
+              جهة الإصدار
+            </label>
 
             <input
               type="text"
               id="senderInput"
               value="إدارة بوتات زيد"
+              autocomplete="off"
             >
+
           </div>
 
         </div>
@@ -126,23 +257,79 @@
       </div>
 
 
+
+      <!-- ===================================================
+           أزرار الإجراءات
+      ==================================================== -->
+
       <div class="control-footer">
 
-        <button
-          class="btn-print"
-          onclick="window.print()"
-          type="button"
-        >
-          <span class="button-icon">⌁</span>
-          <span>
-            <strong>طباعة الشهادة</strong>
-            <small>طباعة أو حفظ بصيغة PDF</small>
-          </span>
-        </button>
+
+        <div class="action-buttons">
+
+
+          <!-- طباعة / PDF -->
+
+          <button
+            class="btn-print"
+            id="printBtn"
+            type="button"
+          >
+
+            <span class="button-icon">
+              ⌁
+            </span>
+
+            <span>
+
+              <strong>
+                طباعة الشهادة
+              </strong>
+
+              <small>
+                طباعة أو حفظ بصيغة PDF
+              </small>
+
+            </span>
+
+          </button>
+
+
+
+          <!-- تحميل كصورة -->
+
+          <button
+            class="btn-image"
+            id="downloadImageBtn"
+            type="button"
+          >
+
+            <span class="button-icon">
+              ▣
+            </span>
+
+            <span>
+
+              <strong>
+                تحميل كصورة
+              </strong>
+
+              <small>
+                PNG بجودة عالية
+              </small>
+
+            </span>
+
+          </button>
+
+
+        </div>
 
       </div>
 
+
     </aside>
+
 
 
     <!-- =====================================================
@@ -151,52 +338,124 @@
 
     <main class="preview-area">
 
+
+      <!-- عنوان المعاينة -->
+
       <div class="preview-label no-print">
-        <span>معاينة الشهادة</span>
-        <span>A4 · أفقي</span>
+
+        <span>
+          معاينة الشهادة
+        </span>
+
+        <span>
+          A4 · أفقي
+        </span>
+
       </div>
+
 
 
       <!-- ===================================================
            الشهادة
       ==================================================== -->
 
-      <div class="certificate" id="certNode">
+      <div
+        class="certificate"
+        id="certNode"
+      >
 
-        <!-- طبقات الخلفية -->
+
+        <!-- =================================================
+             طبقات الخلفية
+        ================================================== -->
+
         <div class="certificate-background">
 
-          <!-- وهج خلفي -->
-          <div class="ambient-glow glow-top"></div>
-          <div class="ambient-glow glow-center"></div>
-          <div class="ambient-glow glow-bottom"></div>
 
-          <!-- زخارف هندسية -->
-          <div class="pattern pattern-top"></div>
-          <div class="pattern pattern-bottom"></div>
+          <!-- الوهج -->
 
-          <!-- خطوط زخرفية -->
-          <div class="ornament ornament-right"></div>
-          <div class="ornament ornament-left"></div>
+          <div
+            class="ambient-glow glow-top"
+          ></div>
 
-          <!-- شريط الهوية -->
-          <div class="brand-strip brand-strip-right"></div>
-          <div class="brand-strip brand-strip-left"></div>
+          <div
+            class="ambient-glow glow-center"
+          ></div>
+
+          <div
+            class="ambient-glow glow-bottom"
+          ></div>
+
+
+
+          <!-- الزخارف الهندسية -->
+
+          <div
+            class="pattern pattern-top"
+          ></div>
+
+          <div
+            class="pattern pattern-bottom"
+          ></div>
+
+
+
+          <!-- الخطوط الزخرفية -->
+
+          <div
+            class="ornament ornament-right"
+          ></div>
+
+          <div
+            class="ornament ornament-left"
+          ></div>
+
+
+
+          <!-- شرائط الهوية -->
+
+          <div
+            class="brand-strip brand-strip-right"
+          ></div>
+
+          <div
+            class="brand-strip brand-strip-left"
+          ></div>
 
         </div>
 
 
-        <!-- الإطار الخارجي -->
+
+        <!-- =================================================
+             الإطار الخارجي
+        ================================================== -->
+
         <div class="cert-frame">
 
+
           <!-- الإطار الداخلي -->
+
           <div class="cert-inner-border">
 
-            <!-- الزخارف الأربعة -->
-            <div class="frame-corner corner-top-right"></div>
-            <div class="frame-corner corner-top-left"></div>
-            <div class="frame-corner corner-bottom-right"></div>
-            <div class="frame-corner corner-bottom-left"></div>
+
+            <!-- الزوايا الأربعة -->
+
+            <div
+              class="frame-corner corner-top-right"
+            ></div>
+
+            <div
+              class="frame-corner corner-top-left"
+            ></div>
+
+            <div
+              class="frame-corner corner-bottom-right"
+            ></div>
+
+            <div
+              class="frame-corner corner-bottom-left"
+            ></div>
+
 
 
             <!-- =================================================
@@ -206,12 +465,19 @@
             <div class="cert-content">
 
 
-              <!-- رأس الشهادة -->
+              <!-- =================================================
+                   رأس الشهادة
+              ================================================== -->
+
               <header class="cert-header">
+
+
+                <!-- الشعار -->
 
                 <div class="logo-area">
 
                   <div class="logo-halo"></div>
+
 
                   <img
                     id="certLogo"
@@ -219,47 +485,82 @@
                     alt="شعار بوتات زيد"
                   >
 
+
+                  <!-- يظهر في حالة عدم رفع شعار -->
+
                   <div
                     id="logoPlaceholder"
                     class="logo-placeholder"
                   >
-                    <span>زيد</span>
+
+                    <span>
+                      زيد
+                    </span>
+
                   </div>
 
                 </div>
 
+
+
+                <!-- اسم الجهة -->
 
                 <div class="header-kicker">
                   بوتات زيد
                 </div>
 
 
+
+                <!-- عنوان الشهادة -->
+
                 <h1>
                   شهادة
-                  <span>شكر وتقدير</span>
+                  <span>
+                    شكر وتقدير
+                  </span>
                 </h1>
 
 
+
+                <!-- زخرفة العنوان -->
+
                 <div class="title-decoration">
 
-                  <span class="decoration-line"></span>
+                  <span
+                    class="decoration-line"
+                  ></span>
 
-                  <span class="decoration-diamond"></span>
+                  <span
+                    class="decoration-diamond"
+                  ></span>
 
-                  <span class="decoration-line"></span>
+                  <span
+                    class="decoration-line"
+                  ></span>
 
                 </div>
 
+
+
+                <!-- العنوان الإنجليزي -->
 
                 <p class="subtitle">
                   CERTIFICATE OF APPRECIATION
                 </p>
 
+
               </header>
 
 
-              <!-- جسم الشهادة -->
+
+              <!-- =================================================
+                   جسم الشهادة
+              ================================================== -->
+
               <section class="cert-body">
+
+
+                <!-- المقدمة -->
 
                 <p class="intro">
                   تقديرًا للجهود المخلصة والعطاء المميز، يُسعدنا أن نتقدم
@@ -267,40 +568,75 @@
                 </p>
 
 
+
+                <!-- اسم المكرم -->
+
                 <div class="recipient">
 
-                  <div class="recipient-line"></div>
+                  <div
+                    class="recipient-line"
+                  ></div>
+
 
                   <h2 id="certName">
                     أحميدة جمال
                   </h2>
 
-                  <div class="recipient-line"></div>
+
+                  <div
+                    class="recipient-line"
+                  ></div>
 
                 </div>
 
 
-                <h4 id="certRole" class="role">
+
+                <!-- صفة المكرم -->
+
+                <h4
+                  id="certRole"
+                  class="role"
+                >
                   المشرف على بوت سنة ثالثة ثانوي (بوت زيد)
                 </h4>
 
 
+
+                <!-- نص الشهادة -->
+
                 <div class="message-container">
 
-                  <span class="quote quote-right">❝</span>
 
-                  <p id="certMessage" class="message">
+                  <span
+                    class="quote quote-right"
+                  >
+                    ❝
+                  </span>
+
+
+                  <p
+                    id="certMessage"
+                    class="message"
+                  >
                     بمناسبة النجاح والتفوق، نتقدم لك بخالص الشكر والتقدير
                     لجهودك الجبارة وعطائك المستمر في إدارة وتطوير
                     "بوت زيد" لخدمة الطلاب. نتمنى لك دوام التوفيق والنجاح
                     في مسيرتك القادمة.
                   </p>
 
-                  <span class="quote quote-left">❞</span>
+
+                  <span
+                    class="quote quote-left"
+                  >
+                    ❞
+                  </span>
+
 
                 </div>
 
+
               </section>
+
 
 
               <!-- =================================================
@@ -311,13 +647,18 @@
 
 
                 <!-- التاريخ -->
-                <div class="sign-box date-box">
+
+                <div
+                  class="sign-box date-box"
+                >
 
                   <span class="sign-label">
                     التاريخ
                   </span>
 
+
                   <span class="sign-line"></span>
+
 
                   <p
                     id="certDate"
@@ -329,7 +670,9 @@
                 </div>
 
 
+
                 <!-- الختم -->
+
                 <div class="seal-container">
 
                   <div class="seal-outer">
@@ -355,14 +698,20 @@
                 </div>
 
 
-                <!-- الجهة -->
-                <div class="sign-box sender-box">
+
+                <!-- جهة الإصدار -->
+
+                <div
+                  class="sign-box sender-box"
+                >
 
                   <span class="sign-label">
                     مقدمة من
                   </span>
 
+
                   <span class="sign-line"></span>
+
 
                   <p
                     id="certSender"
@@ -373,10 +722,15 @@
 
                 </div>
 
+
               </footer>
 
 
-              <!-- العلامة السفلية -->
+
+              <!-- =================================================
+                   العلامة السفلية
+              ================================================== -->
+
               <div class="certificate-branding">
 
                 <span></span>
@@ -393,8 +747,10 @@
             </div>
             <!-- نهاية cert-content -->
 
+
           </div>
           <!-- نهاية cert-inner-border -->
+
 
         </div>
         <!-- نهاية cert-frame -->
@@ -403,13 +759,26 @@
       </div>
       <!-- نهاية certificate -->
 
+
     </main>
+
 
   </div>
 
 
-  <!-- JavaScript -->
-  <script src="script.js"></script>
+
+  <!-- =====================================================
+       مكتبة تحويل HTML إلى صورة
+  ====================================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+
+  <!-- JavaScript الخاص بالأداة -->
+
+  <script src="script.js?v=5"></script>
+
 
 </body>
+
 </html>
