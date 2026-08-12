@@ -3,59 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مولد الشهادات الاحترافية</title>
+  <title>شهادة شكر وتقدير - بوتات زيد</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <!-- لوحة إدخال البيانات -->
-    <div class="form-section no-print">
-      <h2>إدخال بيانات الشهادة</h2>
-      <form id="cert-form">
-        <label>اسم المتدرب:</label>
-        <input type="text" id="nameInput" placeholder="مثال: أحمد محمد علي" required>
+  <div class="main-container">
+    <!-- لوحة التحكم وإدخال البيانات (تختفي عند الطباعة) -->
+    <aside class="controls no-print">
+      <h2>إعدادات الشهادة</h2>
+      
+      <div class="form-group">
+        <label>رفع الشعار (Logo):</label>
+        <input type="file" id="logoUpload" accept="image/*">
+      </div>
 
-        <label>اسم الدورة التدريبية:</label>
-        <input type="text" id="courseInput" placeholder="مثال: تطوير تطبيقات الويب الكاملة" required>
+      <div class="form-group">
+        <label>اسم المُكرَّم:</label>
+        <input type="text" id="nameInput" value="أحميدة جمال">
+      </div>
 
-        <label>تاريخ الإصدار:</label>
-        <input type="date" id="dateInput" required>
+      <div class="form-group">
+        <label>الصفة / الدور:</label>
+        <input type="text" id="roleInput" value="المشرف على بوت سنة ثالثة ثانوي (بوت زيد)">
+      </div>
 
-        <label>الجهة المصدرة / اسم المدرب:</label>
-        <input type="text" id="issuerInput" placeholder="مثال: أكاديمية التقنية" required>
+      <div class="form-group">
+        <label>نص الشكر:</label>
+        <textarea id="messageInput" rows="5">بمناسبة النجاح والتفوق، نتقدم لك بخالص الشكر والتقدير لجهودك الجبارة وعطائك المستمر في إدارة وتطوير "بوت زيد" لخدمة الطلاب. نتمنى لك دوام التوفيق والنجاح في مسيرتك القادمة.</textarea>
+      </div>
 
-        <button type="button" class="print-btn" onclick="window.print()">طباعة / حفظ كـ PDF</button>
-      </form>
-    </div>
+      <div class="form-group">
+        <label>التاريخ:</label>
+        <!-- سيتم جلب تاريخ اليوم برمجياً -->
+        <input type="text" id="dateInput" value="2026/08/12">
+      </div>
 
-    <!-- قالب الشهادة -->
-    <div class="cert-wrapper">
-      <div class="certificate" id="certificate">
-        <div class="cert-border">
-          <div class="cert-header">
-            <h1>شهادة إتمام</h1>
-            <p class="subtitle">CERTIFICATE OF COMPLETION</p>
-          </div>
+      <div class="form-group">
+        <label>مُقدمة من:</label>
+        <input type="text" id="senderInput" value="إدارة بوتات زيد">
+      </div>
+
+      <button class="btn-print" onclick="window.print()">استخراج كـ PDF / طباعة</button>
+    </aside>
+
+    <!-- منطقة المعاينة (التصميم الفعلي للشهادة) -->
+    <main class="preview-area">
+      <div class="certificate" id="certNode">
+        <!-- الخلفية والأشكال الهندسية الزرقاء -->
+        <div class="cert-background">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+        </div>
+        
+        <!-- محتوى الشهادة -->
+        <div class="cert-content">
+          <header class="cert-header">
+            <!-- الشعار الافتراضي هو صورة بوت زيد التي أشرت إليها، وسيتغير عند الرفع -->
+            <img id="certLogo" src="1000001051_2.jpg" alt="شعار بوتات زيد" class="logo">
+            <h1>شهادة شكر وتقدير</h1>
+            <p class="subtitle">Certificate of Appreciation</p>
+          </header>
           
-          <div class="cert-body">
-            <p>تشهد الجهة المختصة بأن السيد/السيدة:</p>
-            <h2 id="certName">اسم المتدرب هنا</h2>
-            <p>قد اجتاز بنجاح ومتطلبات الدورة التدريبية بعنوان:</p>
-            <h3 id="certCourse">عنوان الدورة التدريبية</h3>
-          </div>
-
-          <div class="cert-footer">
-            <div class="footer-item">
+          <section class="cert-body">
+            <p class="intro-text">يُسعدنا أن نتقدم بأسمى آيات الشكر والامتنان إلى:</p>
+            <h2 id="certName">أحميدة جمال</h2>
+            <h4 id="certRole">المشرف على بوت سنة ثالثة ثانوي (بوت زيد)</h4>
+            
+            <p id="certMessage" class="message-text">بمناسبة النجاح والتفوق، نتقدم لك بخالص الشكر والتقدير لجهودك الجبارة وعطائك المستمر في إدارة وتطوير "بوت زيد" لخدمة الطلاب. نتمنى لك دوام التوفيق والنجاح في مسيرتك القادمة.</p>
+          </section>
+          
+          <footer class="cert-footer">
+            <div class="signature">
               <p><strong>التاريخ:</strong> <span id="certDate">2026/08/12</span></p>
             </div>
-            <div class="footer-item">
-              <p><strong>الاعتماد:</strong> <span id="certIssuer">اسم الجهة</span></p>
+            <!-- مساحة لختم أو توقيع -->
+            <div class="seal-area">
+              <div class="seal">شُكرًا لك</div>
             </div>
-          </div>
+            <div class="signature">
+              <p><strong>مقدمة من:</strong> <span id="certSender">إدارة بوتات زيد</span></p>
+            </div>
+          </footer>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 
   <script src="script.js"></script>
