@@ -3,19 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صانع الشهادات الاحترافي - بوتات زيد</title>
-    <!-- خطوط عربية فاخرة ورسمية -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,700&family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <!-- مكتبة تحويل العناصر إلى صور HD -->
+    <title>أداة تصميم شهادات التقدير - بوتات زيد</title>
+
+    <!-- خطوط عربية فاخرة من Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;900&family=Reem+Kufi:wght@500;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- مكتبة html2canvas لتحميل الشهادة كصورة عالية الدقة -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         :root {
-            --navy-dark: #0F1E36;
-            --navy-primary: #1B365D;
-            --navy-light: #2C4D75;
-            --gold-primary: #C5A059;
-            --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
-            --bg-canvas: #eef2f5;
+            --navy-dark: #0A192F;
+            --navy-blue: #102A45;
+            --royal-blue: #1A3A5C;
+            --gold-primary: #D4AF37;
+            --gold-light: #F3E5AB;
+            --gold-dark: #AA771C;
+            --bg-page: #0F172A;
+            --panel-bg: #1E293B;
+            --text-light: #F8FAFC;
         }
 
         * {
@@ -26,32 +34,39 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-canvas);
+            background-color: var(--bg-page);
+            color: var(--text-light);
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* شريط التحكم الجانبي */
+        /* لوحة التحكم الجانبية */
         .sidebar {
-            width: 360px;
-            background: #ffffff;
-            padding: 20px;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.08);
+            width: 380px;
+            background-color: var(--panel-bg);
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 16px;
             overflow-y: auto;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.4);
             z-index: 10;
         }
 
-        .sidebar h2 {
-            font-size: 1.3em;
-            color: var(--navy-primary);
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-            margin-bottom: 5px;
-            text-align: center;
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 12px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            color: var(--gold-primary);
+            font-weight: 700;
         }
 
         .form-group {
@@ -61,24 +76,29 @@
         }
 
         .form-group label {
-            font-size: 0.85em;
-            font-weight: 700;
-            color: #444;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #94A3B8;
         }
 
-        .form-group input, .form-group textarea {
-            padding: 10px;
-            border: 1px solid #dcdfe6;
-            border-radius: 6px;
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            padding: 10px 12px;
+            background: #0F172A;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #F8FAFC;
             font-family: 'Cairo', sans-serif;
-            font-size: 0.9em;
-            transition: all 0.3s;
+            font-size: 0.9rem;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--navy-primary);
+        .form-group input:focus, 
+        .form-group textarea:focus, 
+        .form-group select:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(27, 54, 93, 0.1);
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
         }
 
         .btn-group {
@@ -89,383 +109,307 @@
         }
 
         .btn {
-            padding: 12px;
+            padding: 12px 16px;
             border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.95em;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: background 0.3s;
             font-family: 'Cairo', sans-serif;
         }
 
-        .btn-png {
-            background: #27ae60;
-            color: white;
-        }
-        .btn-png:hover { background: #219150; }
+        .btn-primary { background: linear-gradient(135deg, #2563EB, #1D4ED8); color: white; }
+        .btn-gold { background: linear-gradient(135deg, #D4AF37, #AA771C); color: #0A192F; }
 
-        .btn-print {
-            background: var(--navy-primary);
-            color: white;
-        }
-        .btn-print:hover { background: var(--navy-dark); }
-
-        /* منطقة العرض المعاينة */
+        /* منطقة المعاينة الحية */
         .preview-area {
             flex: 1;
-            padding: 30px;
+            padding: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: auto;
-            background: #d8e0e8;
+            background: #0B132B;
         }
 
-        /* ورقة الشهادة (مقاس A4 Landscape بنسبة 1.414) */
-        .certificate-paper {
-            width: 1000px;
-            height: 707px; /* A4 Ratio */
-            background: #ffffff;
+        /* مقاس الشهادة العرضي القياسي A4 */
+        .certificate-wrapper {
+            width: 1050px;
+            height: 742px;
+            background: linear-gradient(135deg, #0A192F 0%, #102A45 50%, #071324 100%);
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            padding: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            padding: 24px;
             box-sizing: border-box;
-            background-image: radial-gradient(#1b365d 0.5px, transparent 0.5px);
-            background-size: 20px 20px;
-            background-color: #fcfdfd;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
-        /* الإطارات الزخرفية الرسمية */
-        .cert-border-outer {
-            border: 4px solid var(--navy-primary);
-            height: 100%;
-            width: 100%;
-            position: relative;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-
-        .cert-border-inner {
-            border: 2px solid var(--gold-primary);
-            height: 100%;
-            width: 100%;
-            position: relative;
-            padding: 25px 40px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.96);
-        }
-
-        /* الزوايا الزخرفية للشهادة */
-        .corner-decoration {
+        /* الخلفية والزخارف الهندسية */
+        .bg-pattern {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--gold-primary);
-            z-index: 2;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0.12;
+            background-image: radial-gradient(circle at 50% 50%, #D4AF37 1px, transparent 1px);
+            background-size: 30px 30px;
         }
-        .top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-        .top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-        .bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-        .bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; }
 
-        /* محتويات الشهادة */
+        .bg-mandala {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 550px; height: 550px;
+            opacity: 0.06; pointer-events: none;
+        }
+
+        /* إطار الشهادة الفاخر */
+        .cert-outer-frame {
+            border: 2px solid var(--gold-primary);
+            height: 100%; width: 100%;
+            position: relative; padding: 8px;
+        }
+
+        .cert-inner-frame {
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            height: 100%; width: 100%;
+            padding: 30px 45px;
+            display: flex; flex-direction: column; align-items: center;
+            background: rgba(10, 25, 47, 0.75);
+        }
+
+        .corner-ornament {
+            position: absolute; width: 60px; height: 60px; fill: var(--gold-primary);
+        }
+        .corner-tl { top: -4px; right: -4px; transform: scaleX(-1); }
+        .corner-tr { top: -4px; left: -4px; }
+        .corner-bl { bottom: -4px; right: -4px; transform: scale(-1, 1); }
+        .corner-br { bottom: -4px; left: -4px; transform: scaleY(-1); }
+
         .cert-header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
         }
 
-        .cert-logo {
-            max-height: 85px;
-            max-width: 150px;
-            object-fit: contain;
+        .cert-logo-box {
+            width: 110px; height: 90px; display: flex; align-items: center; justify-content: center;
         }
 
-        .logo-placeholder {
-            width: 80px;
-            height: 80px;
-            border: 2px dashed #ccc;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7em;
-            color: #aaa;
+        .cert-logo-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        .header-badge {
+            text-align: left; font-size: 0.85rem; color: var(--gold-light); font-weight: 600;
+            border-right: 2px solid var(--gold-primary); padding-right: 12px;
         }
 
         .cert-title {
-            font-family: 'Aref Ruqaa', serif;
-            font-size: 3.2em;
-            color: var(--navy-primary);
-            margin: 5px 0;
-            line-height: 1.2;
-            letter-spacing: 1px;
-            text-align: center;
+            font-family: 'Aref Ruqaa', serif; font-size: 3.2rem;
+            background: linear-gradient(180deg, #FFF5C0 0%, #D4AF37 70%, #AA771C 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-top: -10px; margin-bottom: 5px; text-align: center;
         }
 
         .gold-divider {
-            height: 3px;
-            width: 200px;
-            background: var(--gold-gradient);
-            margin: 10px 0 20px 0;
-            border-radius: 2px;
+            display: flex; align-items: center; gap: 12px; margin: 8px 0 16px 0; width: 60%;
         }
 
-        .cert-subtext {
-            font-size: 1.15em;
-            color: #555;
-            margin-bottom: 15px;
+        .gold-divider-line { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--gold-primary), transparent); }
+        .gold-divider-diamond { width: 8px; height: 8px; background: var(--gold-primary); transform: rotate(45deg); }
+
+        .cert-intro { font-size: 1.15rem; color: #E2E8F0; margin-bottom: 12px; }
+
+        .cert-recipient-name {
+            font-family: 'Amiri', serif; font-size: 2.8rem; font-weight: 700; color: #FFFFFF;
+            padding: 0 25px 6px 25px; border-bottom: 2px solid var(--gold-primary); margin-bottom: 14px;
         }
 
-        .cert-recipient {
-            font-family: 'Amiri', serif;
-            font-size: 2.8em;
-            font-weight: 700;
-            color: var(--navy-dark);
-            margin: 5px 0 15px 0;
-            padding: 0 30px 5px 30px;
-            border-bottom: 2px solid var(--gold-primary);
-            min-width: 350px;
-            text-align: center;
+        .cert-occasion-tag {
+            background: rgba(37, 99, 235, 0.25); border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--gold-light); padding: 4px 18px; border-radius: 20px; font-size: 0.95rem; font-weight: 600; margin-bottom: 16px;
         }
 
-        .cert-body {
-            font-size: 1.15em;
-            line-height: 1.8;
-            color: #333;
-            text-align: center;
-            max-width: 85%;
-            margin-bottom: auto;
-        }
+        .cert-body-text { font-size: 1.15rem; line-height: 1.85; color: #CBD5E1; text-align: center; max-width: 86%; margin-bottom: auto; }
 
-        /* التوقيعات والختم */
-        .cert-footer {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-top: 30px;
-            padding: 0 30px;
-        }
+        .cert-footer { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding: 0 20px; }
 
-        .footer-block {
-            text-align: center;
-            min-width: 180px;
-        }
+        .sig-block { text-align: center; min-width: 190px; }
+        .sig-title { font-size: 1.05rem; font-weight: 700; color: var(--gold-light); margin-bottom: 35px; }
+        .sig-line { border-top: 1px dashed var(--gold-primary); padding-top: 6px; font-size: 0.85rem; color: #94A3B8; }
 
-        .footer-title {
-            font-size: 1em;
-            font-weight: bold;
-            color: var(--navy-primary);
-            margin-bottom: 8px;
-        }
-
-        .footer-line {
-            border-top: 1px solid var(--gold-primary);
-            padding-top: 5px;
-            font-size: 0.9em;
-            color: #666;
-        }
-
-        .cert-stamp {
-            width: 90px;
-            height: 90px;
-            border: 2px dashed var(--gold-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold-primary);
-            font-size: 0.8em;
-            font-weight: bold;
-            transform: rotate(-10deg);
-            opacity: 0.85;
-        }
-
-        /* قواعد الطباعة الخاصة بالنقاء والترتيب */
         @media print {
-            body {
-                background: none;
-                overflow: visible;
-            }
-            .sidebar {
-                display: none !important;
-            }
-            .preview-area {
-                padding: 0;
-                background: none;
-            }
-            .certificate-paper {
-                box-shadow: none;
-                width: 100% !important;
-                height: 100vh !important;
-                page-break-after: always;
-                page-break-inside: avoid;
-            }
-            @page {
-                size: A4 landscape;
-                margin: 0;
-            }
+            body { background: none; overflow: visible; }
+            .sidebar { display: none !important; }
+            .preview-area { padding: 0; background: none; }
+            .certificate-wrapper { box-shadow: none; width: 100% !important; height: 100vh !important; }
+            @page { size: A4 landscape; margin: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- لوحة التحكم الجانبية -->
+    <!-- لوحة التحكم -->
     <div class="sidebar">
-        <h2>تعديل البيانات</h2>
+        <div class="sidebar-header">
+            <h2>صانع الشهادات - بوتات زيد</h2>
+        </div>
 
         <div class="form-group">
-            <label>شعار البوت / المؤسسة:</label>
-            <input type="file" id="logoInput" accept="image/*">
+            <label>شعار البوت / القناة:</label>
+            <input type="file" id="inputLogo" accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <label>نوع الخط للعنوان الرئيسي:</label>
+            <select id="selectTitleFont">
+                <option value="'Aref Ruqaa', serif" selected>عارف رقعة (ملكي)</option>
+                <option value="'Reem Kufi', sans-serif">ريم كوفي (حديث)</option>
+                <option value="'Amiri', serif">الأميري (كلاسيكي)</option>
+                <option value="'Cairo', sans-serif">القاهرة (عصري)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>نوع الخط لاسم المكرم:</label>
+            <select id="selectNameFont">
+                <option value="'Amiri', serif" selected>الأميري (فاخر بوزن عريض)</option>
+                <option value="'Aref Ruqaa', serif">عارف رقعة</option>
+                <option value="'Scheherazade New', serif">شهرزاد (تراثي)</option>
+                <option value="'Cairo', sans-serif">القاهرة</option>
+            </select>
         </div>
 
         <div class="form-group">
             <label>عنوان الشهادة:</label>
-            <input type="text" id="titleInput" value="شهادة شكر وتقدير">
+            <input type="text" id="inputTitle" value="شهادة شكر وتقدير">
         </div>
 
         <div class="form-group">
-            <label>اسم المكرم:</label>
-            <input type="text" id="nameInput" value="الأستاذ / أحميدة جمال">
+            <label>اسم الشخص المكرم:</label>
+            <input type="text" id="inputName" value="الأستاذ / أحميدة جمال">
         </div>
 
         <div class="form-group">
-            <label>نص الشهادة والتقدير:</label>
-            <textarea id="msgInput" rows="5">تتقدم إدارة "بوتات زيد" بخالص الشكر والتقدير والامتنان لجهوده المتميزة وإخلاصه العالي كمشرف لبوت السنة الثالثة ثانوي. وننتهز هذه المناسبة لنبارك له نجاحه الباهر وتفوقه، متمنين له دوام التوفيق والتميز في مسيرته القادمة.</textarea>
+            <label>المناسبة / الحدث:</label>
+            <input type="text" id="inputOccasion" value="بمناسبة نجاحه وتفوقه في السنة الثالثة ثانوي">
         </div>
 
         <div class="form-group">
-            <label>الجهة المصدرة (التوقيع الأيمن):</label>
-            <input type="text" id="signRightInput" value="إدارة بوتات زيد">
+            <label>كلمة الشكر والتقدير:</label>
+            <textarea id="inputBody" rows="5">ببالغ الفخر والاعتزاز، تتقدم إدارة "بوتات زيد" بخالص الشكر والتقدير والامتنان لجهوده الاستثنائية وإخلاصه العالي كمشرف لبوت السنة الثالثة ثانوي. وننتهز فرصة ظهور النتائج اليوم لنبارك له هذا النجاح الباهر والتفوق المتميز، متمنين له مستقبلاً مليئاً بالمسرات والتميز المستمر.</textarea>
         </div>
 
         <div class="form-group">
-            <label>التاريخ / التوقيع الأيسر:</label>
-            <input type="text" id="signLeftInput" value="تاريخ الإصدار: 2026/08/12">
+            <label>التوقيع الأيمن (الجهة المصدرة):</label>
+            <input type="text" id="inputSignRight" value="إدارة بوتات زيد">
+        </div>
+
+        <div class="form-group">
+            <label>التوقيع الأيسر / التاريخ:</label>
+            <input type="text" id="inputSignLeft" value="تاريخ التوثيق: 2026/08/12">
         </div>
 
         <div class="btn-group">
-            <button class="btn btn-png" onclick="downloadPNG()">
-                📥 تحميل الشهادة كـ صورة (PNG)
-            </button>
-            <button class="btn btn-print" onclick="window.print()">
-                🖨️ طباعة الشهادة (PDF)
-            </button>
+            <button class="btn btn-gold" onclick="downloadPNG()">🖼️ تحميل الشهادة كصورة HD (PNG)</button>
+            <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة / حفظ كملف PDF</button>
         </div>
     </div>
 
-    <!-- منطقة المعاينة الرسمية -->
+    <!-- شاشة المعاينة الحية -->
     <div class="preview-area">
-        <div class="certificate-paper" id="certificateNode">
-            <div class="cert-border-outer">
-                <!-- زوايا زخرفية -->
-                <div class="corner-decoration top-left"></div>
-                <div class="corner-decoration top-right"></div>
-                <div class="corner-decoration bottom-left"></div>
-                <div class="corner-decoration bottom-right"></div>
+        <div class="certificate-wrapper" id="certificateCanvas">
+            <div class="bg-pattern"></div>
+            
+            <div class="cert-outer-frame">
+                <!-- أركان زخرفية -->
+                <svg class="corner-ornament corner-tr" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,20 L20,20 L20,100 L0,100 Z M30,30 L80,30 L80,40 L40,40 L40,80 L30,80 Z"/><circle cx="15" cy="15" r="5"/></svg>
+                <svg class="corner-ornament corner-tl" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,20 L20,20 L20,100 L0,100 Z M30,30 L80,30 L80,40 L40,40 L40,80 L30,80 Z"/><circle cx="15" cy="15" r="5"/></svg>
+                <svg class="corner-ornament corner-br" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,20 L20,20 L20,100 L0,100 Z M30,30 L80,30 L80,40 L40,40 L40,80 L30,80 Z"/><circle cx="15" cy="15" r="5"/></svg>
+                <svg class="corner-ornament corner-bl" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,20 L20,20 L20,100 L0,100 Z M30,30 L80,30 L80,40 L40,40 L40,80 L30,80 Z"/><circle cx="15" cy="15" r="5"/></svg>
 
-                <div class="cert-border-inner">
-                    <!-- الترويسة والشعار -->
+                <div class="cert-inner-frame">
                     <div class="cert-header">
-                        <div id="logoContainer">
-                            <div class="logo-placeholder">شعار البوت</div>
+                        <div class="cert-logo-box" id="logoDisplay">
+                            <svg viewBox="0 0 120 120" width="85" height="85">
+                                <path d="M30,35 L60,18 L90,35 L60,52 Z" fill="#2B78B3" stroke="#D4AF37" stroke-width="1.5"/>
+                                <path d="M30,38 L30,48 Q30,55 60,62 Q90,55 90,48 L90,38" fill="none" stroke="#1B5E91" stroke-width="2"/>
+                                <path d="M40,55 L80,55 L45,90 L85,90" fill="none" stroke="#2B78B3" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M85,90 L75,108 L85,105 L95,108 Z" fill="#D4AF37"/>
+                            </svg>
                         </div>
-                        <div style="text-align: left; font-size: 0.85em; color: var(--navy-primary); font-weight: bold;">
-                            بوتات زيد التعليمية<br>
-                            Zaid Bots Team
-                        </div>
+                        <div class="header-badge">منظومة بوتات زيد التعليمية<br>Zaid Educational Bots</div>
                     </div>
 
-                    <!-- العنوان -->
-                    <h1 class="cert-title" id="certTitle">شهادة شكر وتقدير</h1>
-                    <div class="gold-divider"></div>
+                    <h1 class="cert-title" id="displayTitle">شهادة شكر وتقدير</h1>
+                    
+                    <div class="gold-divider">
+                        <div class="gold-divider-line"></div>
+                        <div class="gold-divider-diamond"></div>
+                        <div class="gold-divider-line"></div>
+                    </div>
 
-                    <p class="cert-subtext">يسرنا أن نتقدم ببالغ الشكر والامتنان إلى</p>
+                    <p class="cert-intro">تَــــتَقَدَّمُ إِدَارَةُ بُوتَاتْ زَيْد بِفَائِقِ الشُّكْرِ وَالِامْتِنَانِ إِلَى:</p>
+                    <div class="cert-recipient-name" id="displayName">الأستاذ / أحميدة جمال</div>
+                    <div class="cert-occasion-tag" id="displayOccasion">بمناسبة نجاحه وتفوقه في السنة الثالثة ثانوي</div>
 
-                    <!-- اسم المتلقي -->
-                    <div class="cert-recipient" id="certName">الأستاذ / أحميدة جمال</div>
-
-                    <!-- متن الشهادة -->
-                    <p class="cert-body" id="certMsg">
-                        تتقدم إدارة "بوتات زيد" بخالص الشكر والتقدير والامتنان لجهوده المتميزة وإخلاصه العالي كمشرف لبوت السنة الثالثة ثانوي. وننتهز هذه المناسبة لنبارك له نجاحه الباهر وتفوقه، متمنين له دوام التوفيق والتميز في مسيرته القادمة.
+                    <p class="cert-body-text" id="displayBody">
+                        ببالغ الفخر والاعتزاز، تتقدم إدارة "بوتات زيد" بخالص الشكر والتقدير والامتنان لجهوده الاستثنائية وإخلاصه العالي كمشرف لبوت السنة الثالثة ثانوي. وننتهز فرصة ظهور النتائج اليوم لنبارك له هذا النجاح الباهر والتفوق المتميز، متمنين له مستقبلاً مليئاً بالمسرات والتميز المستمر.
                     </p>
 
-                    <!-- الذيل والتواقيق -->
                     <div class="cert-footer">
-                        <div class="footer-block">
-                            <div class="footer-title" id="certSignRight">إدارة بوتات زيد</div>
-                            <div class="footer-line">التوقيع والاعتماد</div>
+                        <div class="sig-block">
+                            <div class="sig-title" id="displaySignRight">إدارة بوتات زيد</div>
+                            <div class="sig-line">التوقيع والاعتماد الرسمي</div>
                         </div>
-
-                        <div class="cert-stamp">
-                            شعار الاعتماد
-                        </div>
-
-                        <div class="footer-block">
-                            <div class="footer-title" id="certSignLeft">تاريخ الإصدار: 2026/08/12</div>
-                            <div class="footer-line">التاريخ والتوثيق</div>
+                        <div class="sig-block">
+                            <div class="sig-title" id="displaySignLeft">تاريخ التوثيق: 2026/08/12</div>
+                            <div class="sig-line">تاريخ الإصدار وختم المراجعة</div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // ربط حقول النص بالشهادة مباشرة
-        function bindInput(inputId, targetId) {
-            document.getElementById(inputId).addEventListener('input', function() {
-                document.getElementById(targetId).innerText = this.value;
-            });
+        function syncText(inputId, targetId) {
+            const input = document.getElementById(inputId);
+            const target = document.getElementById(targetId);
+            input.addEventListener('input', () => { target.innerText = input.value; });
         }
 
-        bindInput('titleInput', 'certTitle');
-        bindInput('nameInput', 'certName');
-        bindInput('msgInput', 'certMsg');
-        bindInput('signRightInput', 'certSignRight');
-        bindInput('signLeftInput', 'certSignLeft');
+        syncText('inputTitle', 'displayTitle');
+        syncText('inputName', 'displayName');
+        syncText('inputOccasion', 'displayOccasion');
+        syncText('inputBody', 'displayBody');
+        syncText('inputSignRight', 'displaySignRight');
+        syncText('inputSignLeft', 'displaySignLeft');
 
-        // معالجة رفع الشعار
-        document.getElementById('logoInput').addEventListener('change', function(e) {
+        document.getElementById('selectTitleFont').addEventListener('change', function() {
+            document.getElementById('displayTitle').style.fontFamily = this.value;
+        });
+
+        document.getElementById('selectNameFont').addEventListener('change', function() {
+            document.getElementById('displayName').style.fontFamily = this.value;
+        });
+
+        document.getElementById('inputLogo').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
-                    const container = document.getElementById('logoContainer');
-                    container.innerHTML = `<img src="${event.target.result}" class="cert-logo" alt="Logo">`;
+                    document.getElementById('logoDisplay').innerHTML = `<img src="${event.target.result}" class="cert-logo-img">`;
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        // دالة تنزيل الشهادة كصورة PNG عالية الدقة
         function downloadPNG() {
-            const certElement = document.getElementById('certificateNode');
-            
-            // استخدام html2canvas لتصوير العناصر كـ Canvas
-            html2canvas(certElement, {
-                scale: 3, // مضاعفة الجودة لأقصى درجة HD
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#ffffff'
-            }).then(canvas => {
-                const image = canvas.toDataURL("image/png");
+            html2canvas(document.getElementById('certificateCanvas'), { scale: 3, backgroundColor: '#0A192F' }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `شهادة_تقدير_${document.getElementById('nameInput').value}.png`;
-                link.href = image;
+                link.download = `شهادة_تقدير_${document.getElementById('inputName').value.replace(/\s+/g, '_')}.png`;
+                link.href = canvas.toDataURL('image/png');
                 link.click();
             });
         }
