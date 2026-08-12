@@ -1,16 +1,44 @@
-// تحديث التغييرات فوراً أثناء الكتابة
-const inputs = document.querySelectorAll('#cert-form input');
+// ربط المدخلات بالعناصر الموجودة في الشهادة
+const inputs = {
+  name: document.getElementById('nameInput'),
+  role: document.getElementById('roleInput'),
+  message: document.getElementById('messageInput'),
+  date: document.getElementById('dateInput'),
+  sender: document.getElementById('senderInput'),
+  logo: document.getElementById('logoUpload')
+};
 
-inputs.forEach(input => {
-  input.addEventListener('input', () => {
-    const nameVal = document.getElementById('nameInput').value;
-    const courseVal = document.getElementById('courseInput').value;
-    const dateVal = document.getElementById('dateInput').value;
-    const issuerVal = document.getElementById('issuerInput').value;
+const cert = {
+  name: document.getElementById('certName'),
+  role: document.getElementById('certRole'),
+  message: document.getElementById('certMessage'),
+  date: document.getElementById('certDate'),
+  sender: document.getElementById('certSender'),
+  logo: document.getElementById('certLogo')
+};
 
-    if (nameVal) document.getElementById('certName').innerText = nameVal;
-    if (courseVal) document.getElementById('certCourse').innerText = courseVal;
-    if (dateVal) document.getElementById('certDate').innerText = dateVal;
-    if (issuerVal) document.getElementById('certIssuer').innerText = issuerVal;
+// دالة لتحديث النصوص فور كتابتها
+function updateText(inputElement, targetElement) {
+  inputElement.addEventListener('input', () => {
+    targetElement.innerText = inputElement.value;
   });
+}
+
+// تطبيق الدالة على جميع حقول النص
+updateText(inputs.name, cert.name);
+updateText(inputs.role, cert.role);
+updateText(inputs.message, cert.message);
+updateText(inputs.date, cert.date);
+updateText(inputs.sender, cert.sender);
+
+// دالة لمعالجة رفع الشعار وتحديث الصورة داخل الشهادة
+inputs.logo.addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      cert.logo.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  }
 });
