@@ -31,13 +31,14 @@ updateText(inputs.message, cert.message);
 updateText(inputs.date, cert.date);
 updateText(inputs.sender, cert.sender);
 
-// دالة لمعالجة رفع الشعار وتحديث الصورة داخل الشهادة
+// دالة لمعالجة رفع الشعار وتحديث الصورة داخل الشهادة وإظهارها
 inputs.logo.addEventListener('change', function(event) {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
     reader.onload = function(e) {
       cert.logo.src = e.target.result;
+      cert.logo.style.display = 'inline-block'; // إظهار الشعار فقط بعد رفعه بنجاح
     }
     reader.readAsDataURL(file);
   }
