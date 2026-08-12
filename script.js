@@ -1,18 +1,18 @@
 /* =========================================================
    Zaid Certificate Designer
    FINAL JavaScript
-   Certificate Export: 3508 × 2480 px
+   Export: 3508 × 2480 px
 ========================================================= */
 
 'use strict';
 
 
 /* =========================================================
-   المقاس النهائي للشهادة
+   المقاس النهائي للصورة
 ========================================================= */
 
-const CERTIFICATE_WIDTH = 3508;
-const CERTIFICATE_HEIGHT = 2480;
+const EXPORT_WIDTH = 3508;
+const EXPORT_HEIGHT = 2480;
 
 
 /* =========================================================
@@ -59,14 +59,12 @@ const downloadImageBtn =
 
 
 /* =========================================================
-   تحديث النصوص مباشرة
+   تحديث النصوص
 ========================================================= */
 
 function bindText(input, output) {
 
-  if (!input || !output) {
-    return;
-  }
+  if (!input || !output) return;
 
   input.addEventListener('input', function () {
 
@@ -85,7 +83,7 @@ bindText(inputs.sender, cert.sender);
 
 
 /* =========================================================
-   مزامنة البيانات عند فتح الصفحة
+   مزامنة القيم عند فتح الصفحة
 ========================================================= */
 
 function syncValues() {
@@ -161,105 +159,81 @@ function showLogo() {
 
 if (inputs.logo) {
 
-  inputs.logo.addEventListener(
-    'change',
-    function (event) {
+  inputs.logo.addEventListener('change', function (event) {
 
-      const file =
-        event.target.files &&
-        event.target.files[0];
+    const file =
+      event.target.files &&
+      event.target.files[0];
 
 
-      /* -----------------------------------------------
-         لم يتم اختيار ملف
-      ------------------------------------------------ */
+    if (!file) {
 
-      if (!file) {
+      resetLogo();
 
-        resetLogo();
-
-        return;
-
-      }
-
-
-      /* -----------------------------------------------
-         التأكد من أن الملف صورة
-      ------------------------------------------------ */
-
-      if (!file.type.startsWith('image/')) {
-
-        alert(
-          'يرجى اختيار ملف صورة صالح.'
-        );
-
-        inputs.logo.value = '';
-
-        resetLogo();
-
-        return;
-
-      }
-
-
-      /* -----------------------------------------------
-         قراءة الصورة
-      ------------------------------------------------ */
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        function (readerEvent) {
-
-          if (!cert.logo) {
-            return;
-          }
-
-
-          cert.logo.onload =
-            function () {
-
-              showLogo();
-
-            };
-
-
-          cert.logo.onerror =
-            function () {
-
-              alert(
-                'تعذر قراءة الشعار. يرجى اختيار صورة أخرى.'
-              );
-
-              resetLogo();
-
-            };
-
-
-          cert.logo.src =
-            readerEvent.target.result;
-
-        };
-
-
-      reader.onerror =
-        function () {
-
-          alert(
-            'حدث خطأ أثناء قراءة الشعار.'
-          );
-
-          resetLogo();
-
-        };
-
-
-      reader.readAsDataURL(file);
+      return;
 
     }
-  );
+
+
+    if (!file.type.startsWith('image/')) {
+
+      alert('يرجى اختيار ملف صورة صالح.');
+
+      inputs.logo.value = '';
+
+      resetLogo();
+
+      return;
+
+    }
+
+
+    const reader = new FileReader();
+
+
+    reader.onload = function (readerEvent) {
+
+      if (!cert.logo) return;
+
+
+      cert.logo.onload = function () {
+
+        showLogo();
+
+      };
+
+
+      cert.logo.onerror = function () {
+
+        alert(
+          'تعذر قراءة الشعار. يرجى اختيار صورة أخرى.'
+        );
+
+        resetLogo();
+
+      };
+
+
+      cert.logo.src =
+        readerEvent.target.result;
+
+    };
+
+
+    reader.onerror = function () {
+
+      alert(
+        'حدث خطأ أثناء قراءة الشعار.'
+      );
+
+      resetLogo();
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+  });
 
 }
 
@@ -270,19 +244,14 @@ if (inputs.logo) {
 
 function initializeLogo() {
 
-  if (!cert.logo) {
-    return;
-  }
+  if (!cert.logo) return;
 
 
   const src =
     cert.logo.getAttribute('src');
 
 
-  if (
-    src &&
-    src.trim() !== ''
-  ) {
+  if (src && src.trim() !== '') {
 
     showLogo();
 
@@ -304,48 +273,32 @@ initializeLogo();
 
 if (cert.logo) {
 
-  cert.logo.addEventListener(
-    'dragstart',
-    function (event) {
+  cert.logo.addEventListener('dragstart', function (event) {
 
-      event.preventDefault();
+    event.preventDefault();
 
-    }
-  );
-
-
-  cert.logo.addEventListener(
-    'click',
-    function (event) {
-
-      event.preventDefault();
-
-    }
-  );
+  });
 
 }
 
 
 /* =========================================================
-   زر الطباعة
+   الطباعة
 ========================================================= */
 
 if (printBtn) {
 
-  printBtn.addEventListener(
-    'click',
-    function () {
+  printBtn.addEventListener('click', function () {
 
-      window.print();
+    window.print();
 
-    }
-  );
+  });
 
 }
 
 
 /* =========================================================
-   انتظار تحميل جميع الصور
+   انتظار تحميل الصور
 ========================================================= */
 
 function waitForImages(container) {
@@ -361,89 +314,98 @@ function waitForImages(container) {
     );
 
 
-  if (images.length === 0) {
+  if (!images.length) {
     return Promise.resolve();
   }
 
 
-  const promises =
-    images.map(
-      function (image) {
+  return Promise.all(
+    images.map(function (img) {
 
-        /*
-         * الصورة محملة بالفعل
-         */
+      if (
+        img.complete &&
+        img.naturalWidth > 0
+      ) {
 
-        if (
-          image.complete &&
-          image.naturalWidth > 0
-        ) {
+        return Promise.resolve();
 
-          return Promise.resolve();
+      }
+
+
+      return new Promise(function (resolve) {
+
+        let completed = false;
+
+
+        function finish() {
+
+          if (completed) return;
+
+          completed = true;
+
+          resolve();
 
         }
 
 
-        /*
-         * انتظار تحميل الصورة
-         */
-
-        return new Promise(
-          function (resolve) {
-
-            let finished = false;
-
-
-            function done() {
-
-              if (finished) {
-                return;
-              }
-
-              finished = true;
-
-              resolve();
-
-            }
-
-
-            image.addEventListener(
-              'load',
-              done,
-              { once: true }
-            );
-
-
-            image.addEventListener(
-              'error',
-              done,
-              { once: true }
-            );
-
-
-            /*
-             * حماية من بقاء العملية معلقة
-             */
-
-            setTimeout(
-              done,
-              20000
-            );
-
-          }
+        img.addEventListener(
+          'load',
+          finish,
+          { once: true }
         );
 
-      }
-    );
+
+        img.addEventListener(
+          'error',
+          finish,
+          { once: true }
+        );
 
 
-  return Promise.all(promises);
+        setTimeout(
+          finish,
+          15000
+        );
+
+      });
+
+    })
+  );
 
 }
 
 
 /* =========================================================
-   تنظيف اسم الملف
+   انتظار الخطوط
+========================================================= */
+
+async function waitForFonts() {
+
+  try {
+
+    if (
+      document.fonts &&
+      document.fonts.ready
+    ) {
+
+      await document.fonts.ready;
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      'تعذر انتظار الخطوط:',
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   اسم الملف
 ========================================================= */
 
 function sanitizeFileName(name) {
@@ -467,10 +429,6 @@ function sanitizeFileName(name) {
 }
 
 
-/* =========================================================
-   إنشاء اسم ملف الشهادة
-========================================================= */
-
 function getCertificateFileName() {
 
   const name =
@@ -480,26 +438,18 @@ function getCertificateFileName() {
       : 'شهادة';
 
 
-  const safeName =
-    sanitizeFileName(name);
-
-
   return (
-    `شهادة-شكر-وتقدير-${safeName}.png`
+    `شهادة-شكر-وتقدير-${sanitizeFileName(name)}.png`
   );
 
 }
 
 
 /* =========================================================
-   تحميل الشهادة كصورة PNG
+   تحميل الصورة
 ========================================================= */
 
 async function downloadCertificateAsImage() {
-
-  /* -----------------------------------------------
-     التأكد من وجود الشهادة
-  ------------------------------------------------ */
 
   if (!cert.node) {
 
@@ -512,17 +462,10 @@ async function downloadCertificateAsImage() {
   }
 
 
-  /* -----------------------------------------------
-     التأكد من وجود html2canvas
-  ------------------------------------------------ */
-
-  if (
-    typeof html2canvas ===
-    'undefined'
-  ) {
+  if (typeof html2canvas === 'undefined') {
 
     alert(
-      'تعذر تشغيل أداة تحميل الصورة.\n' +
+      'تعذر تشغيل أداة تصدير الصورة.\n\n' +
       'تأكد من اتصال الإنترنت ثم أعد تحميل الصفحة.'
     );
 
@@ -530,10 +473,6 @@ async function downloadCertificateAsImage() {
 
   }
 
-
-  /* -----------------------------------------------
-     منع الضغط المتكرر
-  ------------------------------------------------ */
 
   if (downloadImageBtn) {
 
@@ -546,122 +485,352 @@ async function downloadCertificateAsImage() {
   }
 
 
-  let originalButtonHTML = '';
+  const originalButtonHTML =
+    downloadImageBtn
+      ? downloadImageBtn.innerHTML
+      : '';
 
 
   if (downloadImageBtn) {
 
-    originalButtonHTML =
-      downloadImageBtn.innerHTML;
-
-
     downloadImageBtn.innerHTML = `
       <span class="button-icon">…</span>
       <span>
-        <strong>جاري تجهيز الصورة</strong>
-        <small>يرجى الانتظار...</small>
+        <strong>جاري تجهيز الشهادة</strong>
+        <small>يتم إنشاء الصورة بجودة عالية...</small>
       </span>
     `;
 
   }
 
 
+  let exportHost = null;
+
+
   try {
 
-    /* ---------------------------------------------
-       التأكد من ظهور الشهادة بالمقاس الحقيقي
-    ---------------------------------------------- */
+    /* =====================================================
+       1 — انتظار الخطوط والصور
+    ===================================================== */
 
-    const originalWidth =
-      cert.node.style.width;
+    await waitForFonts();
 
-    const originalHeight =
-      cert.node.style.height;
+    await waitForImages(cert.node);
 
-    const originalMinWidth =
-      cert.node.style.minWidth;
 
-    const originalMinHeight =
-      cert.node.style.minHeight;
+    /* =====================================================
+       2 — إنشاء نسخة مستقلة من الشهادة
+       
+       لا نغير الشهادة الأصلية الموجودة أمام المستخدم.
+    ===================================================== */
+
+    exportHost =
+      document.createElement('div');
+
+
+    exportHost.style.position = 'fixed';
+    exportHost.style.left = '-100000px';
+    exportHost.style.top = '0';
+
+    exportHost.style.width =
+      `${EXPORT_WIDTH}px`;
+
+    exportHost.style.height =
+      `${EXPORT_HEIGHT}px`;
+
+    exportHost.style.overflow =
+      'hidden';
+
+    exportHost.style.background =
+      '#F8F9FA';
+
+    exportHost.style.zIndex =
+      '-999999';
+
+
+    const clone =
+      cert.node.cloneNode(true);
+
+
+    /* =====================================================
+       3 — المقاس الحقيقي للنسخة
+    ===================================================== */
+
+    clone.id = 'certNodeExport';
+
+    clone.style.width =
+      `${EXPORT_WIDTH}px`;
+
+    clone.style.height =
+      `${EXPORT_HEIGHT}px`;
+
+    clone.style.minWidth =
+      `${EXPORT_WIDTH}px`;
+
+    clone.style.minHeight =
+      `${EXPORT_HEIGHT}px`;
+
+    clone.style.maxWidth =
+      'none';
+
+    clone.style.maxHeight =
+      'none';
+
+    clone.style.margin =
+      '0';
+
+    clone.style.transform =
+      'none';
+
+    clone.style.boxShadow =
+      'none';
+
+    clone.style.position =
+      'relative';
+
+
+    /* =====================================================
+       4 — إضافة النسخة إلى الصفحة
+    ===================================================== */
+
+    exportHost.appendChild(clone);
+
+    document.body.appendChild(exportHost);
+
+
+    /* =====================================================
+       5 — ضبط عناصر الشهادة لتتناسب مع المقاس الجديد
+       
+       التصميم الأصلي مبني على:
+       1050 × 742
+
+       المقاس النهائي:
+       3508 × 2480
+       
+       لذلك نكبر التصميم بنسبة موحدة.
+    ===================================================== */
+
+    const scaleX =
+      EXPORT_WIDTH / 1050;
+
+    const scaleY =
+      EXPORT_HEIGHT / 742;
+
+
+    const scale =
+      Math.min(scaleX, scaleY);
 
 
     /*
-     * نفرض المقاس الحقيقي مؤقتًا أثناء التصدير.
-     *
-     * الناتج النهائي:
-     *
-     * 3508 × 2480 px
+     * العناصر التي تعتمد على المقاس القديم
+     * يتم تكبيرها بنسبة واحدة.
      */
 
-    cert.node.style.width =
-      `${CERTIFICATE_WIDTH}px`;
+    const scalableSelectors = [
 
-    cert.node.style.height =
-      `${CERTIFICATE_HEIGHT}px`;
+      '.certificate-background',
 
-    cert.node.style.minWidth =
-      `${CERTIFICATE_WIDTH}px`;
+      '.cert-frame',
 
-    cert.node.style.minHeight =
-      `${CERTIFICATE_HEIGHT}px`;
+      '.cert-inner-border',
+
+      '.cert-content',
+
+      '.cert-header',
+
+      '.logo-area',
+
+      '.logo-halo',
+
+      '.header-kicker',
+
+      '.cert-header h1',
+
+      '.title-decoration',
+
+      '.cert-header .subtitle',
+
+      '.cert-body',
+
+      '.recipient',
+
+      '.recipient-line',
+
+      '.cert-body h2',
+
+      '.cert-body .role',
+
+      '.message-container',
+
+      '.cert-footer',
+
+      '.sign-box',
+
+      '.seal-container',
+
+      '.seal-outer',
+
+      '.seal-inner',
+
+      '.certificate-branding'
+
+    ];
 
 
-    /* ---------------------------------------------
-       انتظار تحميل الشعار
-    ---------------------------------------------- */
+    /*
+     * نستخدم transform على الشهادة كاملة.
+     *
+     * ولأننا نريد الناتج النهائي بالضبط
+     * 3508 × 2480، يتم ضبط النسخة
+     * داخل مساحة التصدير.
+     */
 
-    await waitForImages(
-      cert.node
-    );
+    clone.style.width = '1050px';
+    clone.style.height = '742px';
+
+    clone.style.minWidth = '1050px';
+    clone.style.minHeight = '742px';
+
+    clone.style.maxWidth = '1050px';
+    clone.style.maxHeight = '742px';
+
+    clone.style.transform =
+      `scale(${scale})`;
+
+    clone.style.transformOrigin =
+      'top left';
 
 
-    /* ---------------------------------------------
-       إعطاء المتصفح فرصة لإعادة الرسم
-    ---------------------------------------------- */
+    /*
+     * خلفية إضافية حتى لا تظهر شفافية.
+     */
 
-    await new Promise(
-      function (resolve) {
+    clone.style.background =
+      '#F8F9FA';
 
-        requestAnimationFrame(
-          function () {
 
-            requestAnimationFrame(
-              resolve
-            );
+    /* =====================================================
+       6 — تعديل بعض العناصر النصية
+       
+       مهم لمنع قص النص.
+    ===================================================== */
 
-          }
-        );
+    const clonedMessage =
+      clone.querySelector('#certMessage');
+
+    if (clonedMessage) {
+
+      clonedMessage.style.maxHeight =
+        'none';
+
+      clonedMessage.style.overflow =
+        'visible';
+
+      clonedMessage.style.whiteSpace =
+        'normal';
+
+      clonedMessage.style.height =
+        'auto';
+
+    }
+
+
+    const clonedRole =
+      clone.querySelector('#certRole');
+
+    if (clonedRole) {
+
+      clonedRole.style.overflow =
+        'visible';
+
+      clonedRole.style.textOverflow =
+        'clip';
+
+      clonedRole.style.whiteSpace =
+        'normal';
+
+    }
+
+
+    const clonedName =
+      clone.querySelector('#certName');
+
+    if (clonedName) {
+
+      clonedName.style.overflow =
+        'visible';
+
+      clonedName.style.textOverflow =
+        'clip';
+
+    }
+
+
+    /* =====================================================
+       7 — الشعار
+    ===================================================== */
+
+    const clonedLogo =
+      clone.querySelector('#certLogo');
+
+
+    if (clonedLogo) {
+
+      if (
+        clonedLogo.src &&
+        clonedLogo.src.trim() !== ''
+      ) {
+
+        clonedLogo.style.display =
+          'block';
 
       }
-    );
+
+    }
 
 
-    /* ---------------------------------------------
-       إنشاء Canvas
+    /* =====================================================
+       8 — انتظار إعادة الرسم
+    ===================================================== */
+
+    await waitForImages(clone);
+
+    await new Promise(function (resolve) {
+
+      requestAnimationFrame(function () {
+
+        requestAnimationFrame(function () {
+
+          setTimeout(
+            resolve,
+            100
+          );
+
+        });
+
+      });
+
+    });
+
+
+    /* =====================================================
+       9 — إنشاء Canvas
        
-       مهم جدًا:
+       scale يتم حسابه بدقة حتى تكون الصورة:
        
-       scale = 1
-
-       لأن الشهادة نفسها:
        3508 × 2480
-
-       وبالتالي الناتج:
-       3508 × 2480
-    ---------------------------------------------- */
+    ===================================================== */
 
     const canvas =
       await html2canvas(
-        cert.node,
+        clone,
         {
 
-          scale: 1,
+          scale: scale,
 
-          width:
-            CERTIFICATE_WIDTH,
+          width: 1050,
 
-          height:
-            CERTIFICATE_HEIGHT,
+          height: 742,
 
           useCORS: true,
 
@@ -674,90 +843,100 @@ async function downloadCertificateAsImage() {
 
           imageTimeout: 20000,
 
+          removeContainer: true,
+
+          foreignObjectRendering: false,
+
           scrollX: 0,
 
-          scrollY: 0,
-
-          windowWidth:
-            CERTIFICATE_WIDTH,
-
-          windowHeight:
-            CERTIFICATE_HEIGHT,
-
-          onclone:
-            function (clonedDocument) {
-
-              const clonedCertificate =
-                clonedDocument.getElementById(
-                  'certNode'
-                );
-
-
-              if (!clonedCertificate) {
-                return;
-              }
-
-
-              /*
-               * تثبيت المقاس داخل النسخة
-               * التي سيأخذ منها html2canvas الصورة.
-               */
-
-              clonedCertificate.style.width =
-                `${CERTIFICATE_WIDTH}px`;
-
-              clonedCertificate.style.height =
-                `${CERTIFICATE_HEIGHT}px`;
-
-              clonedCertificate.style.minWidth =
-                `${CERTIFICATE_WIDTH}px`;
-
-              clonedCertificate.style.minHeight =
-                `${CERTIFICATE_HEIGHT}px`;
-
-              clonedCertificate.style.maxWidth =
-                'none';
-
-              clonedCertificate.style.maxHeight =
-                'none';
-
-              clonedCertificate.style.transform =
-                'none';
-
-            }
+          scrollY: 0
 
         }
       );
 
 
-    /* ---------------------------------------------
-       التأكد من المقاس
-    ---------------------------------------------- */
+    /* =====================================================
+       10 — إنشاء Canvas نهائي بالمقاس المطلوب بالضبط
+    ===================================================== */
 
-    if (
-      canvas.width !==
-        CERTIFICATE_WIDTH ||
-      canvas.height !==
-        CERTIFICATE_HEIGHT
-    ) {
+    const finalCanvas =
+      document.createElement('canvas');
+
+
+    finalCanvas.width =
+      EXPORT_WIDTH;
+
+    finalCanvas.height =
+      EXPORT_HEIGHT;
+
+
+    const finalContext =
+      finalCanvas.getContext('2d');
+
+
+    if (!finalContext) {
 
       throw new Error(
-        `حجم الصورة الناتجة غير صحيح: ` +
-        `${canvas.width}×${canvas.height}`
+        'تعذر إنشاء Canvas النهائي.'
       );
 
     }
 
 
-    /* ---------------------------------------------
-       تحويل Canvas إلى PNG
-    ---------------------------------------------- */
+    /*
+     * تحسين جودة إعادة التحجيم.
+     */
+
+    finalContext.imageSmoothingEnabled =
+      true;
+
+    finalContext.imageSmoothingQuality =
+      'high';
+
+
+    /*
+     * رسم الصورة داخل المقاس النهائي.
+     */
+
+    finalContext.drawImage(
+      canvas,
+      0,
+      0,
+      canvas.width,
+      canvas.height,
+      0,
+      0,
+      EXPORT_WIDTH,
+      EXPORT_HEIGHT
+    );
+
+
+    /* =====================================================
+       11 — التحقق من المقاس النهائي
+    ===================================================== */
+
+    if (
+      finalCanvas.width !== EXPORT_WIDTH ||
+      finalCanvas.height !== EXPORT_HEIGHT
+    ) {
+
+      throw new Error(
+        `المقاس الناتج غير صحيح: ` +
+        `${finalCanvas.width} × ${finalCanvas.height}`
+      );
+
+    }
+
+
+    /* =====================================================
+       12 — تحويل إلى PNG
+    ===================================================== */
 
     const blob =
       await new Promise(
         function (resolve, reject) {
 
-          canvas.toBlob(
+          finalCanvas.toBlob(
             function (result) {
 
               if (result) {
@@ -782,9 +961,9 @@ async function downloadCertificateAsImage() {
       );
 
 
-    /* ---------------------------------------------
-       إنشاء رابط التحميل
-    ---------------------------------------------- */
+    /* =====================================================
+       13 — تحميل الصورة
+    ===================================================== */
 
     const url =
       URL.createObjectURL(blob);
@@ -794,10 +973,14 @@ async function downloadCertificateAsImage() {
       document.createElement('a');
 
 
-    link.href = url;
+    link.href =
+      url;
 
     link.download =
       getCertificateFileName();
+
+    link.style.display =
+      'none';
 
 
     document.body.appendChild(link);
@@ -807,75 +990,62 @@ async function downloadCertificateAsImage() {
     document.body.removeChild(link);
 
 
-    /* ---------------------------------------------
-       تنظيف الرابط المؤقت
-    ---------------------------------------------- */
+    /* =====================================================
+       14 — تنظيف
+    ===================================================== */
 
-    setTimeout(
-      function () {
+    setTimeout(function () {
 
-        URL.revokeObjectURL(url);
+      URL.revokeObjectURL(url);
 
-      },
-      2000
-    );
+    }, 3000);
 
-
-    /* ---------------------------------------------
-       إشعار نجاح بسيط
-    ---------------------------------------------- */
 
     console.log(
-      `تم تصدير الشهادة بنجاح: ` +
-      `${CERTIFICATE_WIDTH} × ${CERTIFICATE_HEIGHT}px`
+      `تم تصدير الشهادة بنجاح — ` +
+      `${EXPORT_WIDTH} × ${EXPORT_HEIGHT}px`
     );
-
-
-    /* ---------------------------------------------
-       إعادة المقاسات الأصلية
-    ---------------------------------------------- */
-
-    cert.node.style.width =
-      originalWidth;
-
-    cert.node.style.height =
-      originalHeight;
-
-    cert.node.style.minWidth =
-      originalMinWidth;
-
-    cert.node.style.minHeight =
-      originalMinHeight;
 
 
   } catch (error) {
 
     console.error(
-      'Certificate image export error:',
+      'Certificate export error:',
       error
     );
 
 
     alert(
       'حدث خطأ أثناء إنشاء صورة الشهادة.\n\n' +
-      'يرجى المحاولة مرة أخرى.'
+      'تأكد من تحميل الصفحة بالكامل ثم حاول مرة أخرى.'
     );
 
 
   } finally {
 
-    /* ---------------------------------------------
-       إعادة زر التحميل لحالته الطبيعية
-    ---------------------------------------------- */
+    /*
+     * حذف النسخة المؤقتة.
+     */
+
+    if (exportHost) {
+
+      exportHost.remove();
+
+    }
+
+
+    /*
+     * إعادة الزر.
+     */
 
     if (downloadImageBtn) {
 
-      downloadImageBtn.disabled = false;
+      downloadImageBtn.disabled =
+        false;
 
       downloadImageBtn.classList.remove(
         'is-loading'
       );
-
 
       downloadImageBtn.innerHTML =
         originalButtonHTML;
@@ -902,29 +1072,13 @@ if (downloadImageBtn) {
 
 
 /* =========================================================
-   معالجة تغيير حجم النافذة
-========================================================= */
-
-window.addEventListener(
-  'resize',
-  function () {
-
-    /*
-     * لا نغير المقاس الحقيقي للشهادة.
-     *
-     * CSS مسؤول فقط عن عرضها بصريًا
-     * داخل الشاشة.
-     */
-
-  }
-);
-
-
-/* =========================================================
    معلومات النظام
 ========================================================= */
 
 console.log(
-  `Zaid Certificate Designer | ` +
-  `Final Size: ${CERTIFICATE_WIDTH} × ${CERTIFICATE_HEIGHT}px`
+  'Zaid Certificate Designer'
+);
+
+console.log(
+  `Export Size: ${EXPORT_WIDTH} × ${EXPORT_HEIGHT}px`
 );
