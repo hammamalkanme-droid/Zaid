@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>شهادة شكر وتقدير - احترافية</title>
-  <!-- إضافة ?v=2 تجبر المتصفح على مسح الكاش وتحميل الألوان الجديدة -->
-  <link rel="stylesheet" href="style.css?v=2">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <title>شهادة شكر وتقدير - بوتات زيد</title>
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
   <div class="main-container">
+    <!-- لوحة التحكم -->
     <aside class="controls no-print">
       <h2>إعدادات الشهادة</h2>
       
@@ -44,12 +43,10 @@
         <input type="text" id="senderInput" value="إدارة بوتات زيد">
       </div>
 
-      <div class="buttons-group">
-        <button class="btn-primary" onclick="downloadAsImage()">تنزيل كصورة (PNG)</button>
-        <button class="btn-secondary" onclick="window.print()">استخراج كـ PDF</button>
-      </div>
+      <button class="btn-print" onclick="window.print()">طباعة / حفظ الشهادة (PDF)</button>
     </aside>
 
+    <!-- منطقة عرض الشهادة -->
     <main class="preview-area">
       <div class="certificate" id="certNode">
         <div class="cert-inner-border">
