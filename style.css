@@ -1,163 +1,236 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Aref+Ruqaa:wght@400;700&display=swap');
+
+:root {
+  /* ألوان مستوحاة من شعار بوتات زيد */
+  --primary-blue: #2b76a6; 
+  --dark-blue: #164260;
+  --bg-color: #e2e8f0;
+  --text-dark: #1e293b;
+}
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  font-family: 'Tajawal', sans-serif;
-  background-color: #eef2f6;
-  padding: 20px;
+  font-family: 'Cairo', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
 }
 
-.container {
+.main-container {
   display: flex;
-  flex-wrap: wrap;
+  min-height: 100vh;
+  padding: 20px;
   gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  flex-wrap: wrap;
 }
 
-/* لوحة الإدخال */
-.form-section {
+/* ----------------- لوحة التحكم ----------------- */
+.controls {
   flex: 1;
   min-width: 300px;
-  background: #ffffff;
+  max-width: 350px;
+  background: white;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  height: fit-content;
 }
 
-.form-section h2 {
+.controls h2 {
+  color: var(--primary-blue);
   margin-bottom: 20px;
-  color: #0f172a;
+  font-weight: 800;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 10px;
 }
 
-.form-section label {
+.form-group { margin-bottom: 15px; }
+
+.form-group label {
   display: block;
-  margin-top: 15px;
   margin-bottom: 5px;
-  font-weight: bold;
-  color: #334155;
+  font-weight: 600;
+  font-size: 14px;
 }
 
-.form-section input {
+.form-group input, .form-group textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
-  font-size: 15px;
+  font-family: inherit;
+  font-size: 14px;
 }
 
-.print-btn {
+.btn-print {
   width: 100%;
-  margin-top: 25px;
-  padding: 12px;
-  background: #059669;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 16px;
-  cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  margin-top: 15px;
 }
 
-.print-btn:hover {
-  background: #047857;
-}
+.btn-print:hover { opacity: 0.9; }
 
-/* معالجة عرض الشهادة */
-.cert-wrapper {
-  flex: 2;
-  min-width: 600px;
+/* ----------------- تصميم الشهادة ----------------- */
+.preview-area {
+  flex: 3;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  overflow-x: auto;
 }
 
 .certificate {
-  width: 800px;
-  height: 560px;
+  position: relative;
+  width: 1050px;
+  height: 742px; /* نسبة أبعاد ورق A4 عرضي */
   background: #ffffff;
-  padding: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   border-radius: 4px;
+  /* لإجبار المتصفح على طباعة الألوان والخلفيات */
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
 }
 
-.cert-border {
-  border: 6px solid #1e3a8a;
-  outline: 2px solid #d97706;
-  outline-offset: -10px;
+/* الأشكال الهندسية في الزوايا */
+.cert-background {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.shape { position: absolute; }
+/* الزاوية العلوية اليمنى */
+.shape-1 {
+  top: 0; right: 0;
+  width: 350px; height: 350px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+/* الزاوية السفلية اليسرى */
+.shape-2 {
+  bottom: 0; left: 0;
+  width: 350px; height: 350px;
+  background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+}
+
+/* إطار داخلي للشهادة */
+.cert-background::after {
+  content: '';
+  position: absolute;
+  top: 25px; left: 25px; right: 25px; bottom: 25px;
+  border: 3px solid var(--primary-blue);
+  outline: 1px solid var(--primary-blue);
+  outline-offset: -5px;
+  z-index: 1;
+}
+
+/* محتوى الشهادة الفعلي */
+.cert-content {
+  position: relative;
+  z-index: 2;
   height: 100%;
-  padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 50px 70px;
   text-align: center;
 }
 
+.cert-header { margin-top: 10px; }
+.cert-header .logo { max-height: 90px; margin-bottom: 15px; }
 .cert-header h1 {
-  font-family: 'Amiri', serif;
-  font-size: 42px;
-  color: #1e3a8a;
-  letter-spacing: 1px;
+  font-family: 'Aref Ruqaa', serif;
+  font-size: 60px;
+  color: var(--primary-blue);
+  margin: 0;
+  line-height: 1;
 }
-
-.subtitle {
-  color: #d97706;
+.cert-header .subtitle {
+  font-size: 16px;
+  color: #64748b;
   letter-spacing: 3px;
-  font-size: 12px;
-  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.cert-body p {
-  font-size: 18px;
-  color: #475569;
-  margin: 12px 0;
-}
-
+.cert-body { margin: auto 0; padding: 0 40px; }
+.intro-text { font-size: 22px; color: #475569; margin-bottom: 10px; }
 .cert-body h2 {
-  font-family: 'Amiri', serif;
-  font-size: 36px;
-  color: #0f172a;
-  border-bottom: 2px solid #d97706;
-  display: inline-block;
-  padding: 0 25px 5px;
-  margin: 10px 0;
+  font-family: 'Aref Ruqaa', serif;
+  font-size: 55px;
+  color: var(--dark-blue);
+  margin: 0;
 }
-
-.cert-body h3 {
-  font-size: 26px;
-  color: #1e3a8a;
+.cert-body h4 {
+  font-size: 24px;
+  color: var(--primary-blue);
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+.message-text {
+  font-size: 22px;
+  line-height: 1.8;
+  color: #334155;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 .cert-footer {
   display: flex;
   justify-content: space-between;
-  padding: 0 30px;
-  font-size: 16px;
-  color: #334155;
-  border-top: 1px solid #e2e8f0;
+  align-items: flex-end;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+.signature {
+  text-align: center;
+  border-top: 2px solid var(--primary-blue);
   padding-top: 15px;
+  min-width: 220px;
+}
+.signature p { font-size: 20px; color: var(--text-dark); }
+
+.seal-area .seal {
+  width: 100px; height: 100px;
+  border: 4px dashed var(--primary-blue);
+  border-radius: 50%;
+  display: flex; justify-content: center; align-items: center;
+  font-family: 'Aref Ruqaa', serif;
+  color: var(--primary-blue);
+  font-size: 24px;
+  opacity: 0.3;
+  transform: rotate(-15deg);
 }
 
-/* تجهيز الصفحة للطباعة فقط */
+/* ----------------- إعدادات الطباعة الدقيقة (لحل مشكلة الألوان والحدود) ----------------- */
 @media print {
-  body {
-    background: none;
-    padding: 0;
+  @page {
+    size: A4 landscape; /* إجبار حجم الصفحة ليكون A4 بالعرض */
+    margin: 0; /* إزالة هوامش المتصفح الافتراضية */
   }
-  .no-print {
-    display: none !important;
-  }
-  .cert-wrapper {
-    width: 100%;
-    min-width: 100%;
-  }
+  body { background: white; margin: 0; padding: 0; }
+  .main-container { padding: 0; display: block; }
+  .no-print { display: none !important; }
+  .preview-area { padding: 0; margin: 0; overflow: visible; display: block; }
   .certificate {
-    box-shadow: none;
     width: 100%;
     height: 100vh;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
   }
 }
