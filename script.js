@@ -1,4 +1,12 @@
 /* =========================================================
+   Zaid Certificate Designer
+   Final JavaScript
+========================================================= */
+
+'use strict';
+
+
+/* =========================================================
    عناصر لوحة التحكم
 ========================================================= */
 
@@ -17,57 +25,57 @@ const inputs = {
 ========================================================= */
 
 const cert = {
+  node: document.getElementById('certNode'),
+
   name: document.getElementById('certName'),
   role: document.getElementById('certRole'),
   message: document.getElementById('certMessage'),
   date: document.getElementById('certDate'),
   sender: document.getElementById('certSender'),
+
   logo: document.getElementById('certLogo'),
-  logoPlaceholder: document.getElementById('logoPlaceholder'),
-  node: document.getElementById('certNode')
+  logoPlaceholder: document.getElementById('logoPlaceholder')
 };
 
 
 /* =========================================================
-   أزرار الإجراءات
+   الأزرار
 ========================================================= */
 
 const printBtn = document.getElementById('printBtn');
-const downloadImageBtn = document.getElementById('downloadImageBtn');
+const downloadImageBtn =
+  document.getElementById('downloadImageBtn');
 
 
 /* =========================================================
-   تحديث النصوص مباشرة
+   تحديث النصوص
 ========================================================= */
 
-function bindTextInput(inputElement, targetElement) {
+function bindText(input, output) {
 
-  if (!inputElement || !targetElement) {
-    return;
-  }
+  if (!input || !output) return;
 
-  inputElement.addEventListener('input', function () {
+  input.addEventListener('input', () => {
 
-    targetElement.textContent = inputElement.value;
+    output.textContent = input.value;
 
   });
+
 }
 
 
-/* ربط الحقول */
-
-bindTextInput(inputs.name, cert.name);
-bindTextInput(inputs.role, cert.role);
-bindTextInput(inputs.message, cert.message);
-bindTextInput(inputs.date, cert.date);
-bindTextInput(inputs.sender, cert.sender);
+bindText(inputs.name, cert.name);
+bindText(inputs.role, cert.role);
+bindText(inputs.message, cert.message);
+bindText(inputs.date, cert.date);
+bindText(inputs.sender, cert.sender);
 
 
 /* =========================================================
-   مزامنة القيم عند فتح الصفحة
+   مزامنة البيانات عند فتح الصفحة
 ========================================================= */
 
-function syncInitialValues() {
+function syncValues() {
 
   if (inputs.name && cert.name) {
     cert.name.textContent = inputs.name.value;
@@ -92,37 +100,62 @@ function syncInitialValues() {
 }
 
 
-/* تشغيل المزامنة */
-
-syncInitialValues();
+syncValues();
 
 
 /* =========================================================
-   رفع الشعار
+   الشعار
 ========================================================= */
+
+function resetLogo() {
+
+  if (cert.logo) {
+
+    cert.logo.removeAttribute('src');
+
+    cert.logo.style.display = 'none';
+
+  }
+
+  if (cert.logoPlaceholder) {
+
+    cert.logoPlaceholder.style.display = 'flex';
+
+  }
+
+}
+
+
+function showLogo() {
+
+  if (cert.logo) {
+    cert.logo.style.display = 'block';
+  }
+
+  if (cert.logoPlaceholder) {
+    cert.logoPlaceholder.style.display = 'none';
+  }
+
+}
+
 
 if (inputs.logo) {
 
-  inputs.logo.addEventListener('change', function (event) {
+  inputs.logo.addEventListener('change', event => {
 
-    const file = event.target.files && event.target.files[0];
+    const file =
+      event.target.files &&
+      event.target.files[0];
 
-
-    /* -----------------------------------------------
-       في حالة عدم اختيار ملف
-    ------------------------------------------------ */
 
     if (!file) {
 
       resetLogo();
 
       return;
+
     }
 
-
-    /* -----------------------------------------------
-       التأكد من أن الملف صورة
-    ------------------------------------------------ */
 
     if (!file.type.startsWith('image/')) {
 
@@ -133,52 +166,46 @@ if (inputs.logo) {
       resetLogo();
 
       return;
+
     }
 
-
-    /* -----------------------------------------------
-       قراءة الصورة
-    ------------------------------------------------ */
 
     const reader = new FileReader();
 
 
-    reader.onload = function (e) {
+    reader.onload = event => {
 
-      if (!cert.logo) {
-        return;
-      }
+      if (!cert.logo) return;
 
 
-      cert.logo.onload = function () {
+      cert.logo.onload = () => {
 
-        cert.logo.style.display = 'block';
-
-
-        if (cert.logoPlaceholder) {
-          cert.logoPlaceholder.style.display = 'none';
-        }
+        showLogo();
 
       };
 
 
-      cert.logo.onerror = function () {
+      cert.logo.onerror = () => {
 
-        alert('تعذر قراءة الشعار. يرجى اختيار صورة أخرى.');
+        alert(
+          'تعذر قراءة الشعار. يرجى اختيار صورة أخرى.'
+        );
 
         resetLogo();
 
       };
 
 
-      cert.logo.src = e.target.result;
+      cert.logo.src = event.target.result;
 
     };
 
 
-    reader.onerror = function () {
+    reader.onerror = () => {
 
-      alert('حدث خطأ أثناء قراءة الشعار.');
+      alert(
+        'حدث خطأ أثناء قراءة الشعار.'
+      );
 
       resetLogo();
 
@@ -193,54 +220,21 @@ if (inputs.logo) {
 
 
 /* =========================================================
-   إعادة الشعار للحالة الافتراضية
-========================================================= */
-
-function resetLogo() {
-
-  if (cert.logo) {
-
-    cert.logo.onload = null;
-    cert.logo.onerror = null;
-
-    cert.logo.removeAttribute('src');
-
-    cert.logo.style.display = 'none';
-
-  }
-
-
-  if (cert.logoPlaceholder) {
-
-    cert.logoPlaceholder.style.display = 'flex';
-
-  }
-
-}
-
-
-/* =========================================================
-   الحالة الأولية للشعار
+   تهيئة الشعار
 ========================================================= */
 
 function initializeLogo() {
 
-  if (!cert.logo) {
-    return;
-  }
+  if (!cert.logo) return;
 
 
-  const source = cert.logo.getAttribute('src');
+  const src =
+    cert.logo.getAttribute('src');
 
 
-  if (source && source.trim() !== '') {
+  if (src && src.trim() !== '') {
 
-    cert.logo.style.display = 'block';
-
-
-    if (cert.logoPlaceholder) {
-      cert.logoPlaceholder.style.display = 'none';
-    }
+    showLogo();
 
   } else {
 
@@ -251,378 +245,7 @@ function initializeLogo() {
 }
 
 
-/* تشغيل الحالة الأولية */
-
 initializeLogo();
 
 
-/* =========================================================
-   زر الطباعة
-========================================================= */
-
-if (printBtn) {
-
-  printBtn.addEventListener('click', function () {
-
-    window.print();
-
-  });
-
-}
-
-
-/* =========================================================
-   انتظار تحميل الصور قبل إنشاء PNG
-========================================================= */
-
-function waitForImages(container) {
-
-  const images = Array.from(
-    container.querySelectorAll('img')
-  );
-
-
-  if (images.length === 0) {
-    return Promise.resolve();
-  }
-
-
-  const promises = images.map(function (image) {
-
-    if (image.complete) {
-
-      if (image.naturalWidth > 0) {
-        return Promise.resolve();
-      }
-
-    }
-
-
-    return new Promise(function (resolve) {
-
-      image.addEventListener(
-        'load',
-        resolve,
-        { once: true }
-      );
-
-      image.addEventListener(
-        'error',
-        resolve,
-        { once: true }
-      );
-
-    });
-
-  });
-
-
-  return Promise.all(promises);
-
-}
-
-
-/* =========================================================
-   تحميل الشهادة كصورة PNG
-========================================================= */
-
-async function downloadCertificateAsImage() {
-
-  if (!cert.node) {
-
-    alert('تعذر العثور على الشهادة.');
-
-    return;
-
-  }
-
-
-  /* -----------------------------------------------
-     التأكد من وجود html2canvas
-  ------------------------------------------------ */
-
-  if (typeof html2canvas === 'undefined') {
-
-    alert(
-      'تعذر تشغيل أداة تحميل الصورة.\n' +
-      'تأكد من اتصال الإنترنت ثم أعد تحميل الصفحة.'
-    );
-
-    return;
-
-  }
-
-
-  /* -----------------------------------------------
-     منع الضغط المتكرر
-  ------------------------------------------------ */
-
-  if (downloadImageBtn) {
-
-    downloadImageBtn.disabled = true;
-
-    downloadImageBtn.classList.add('is-loading');
-
-  }
-
-
-  let originalButtonHTML = '';
-
-
-  if (downloadImageBtn) {
-
-    originalButtonHTML =
-      downloadImageBtn.innerHTML;
-
-
-    downloadImageBtn.innerHTML = `
-      <span class="button-icon">…</span>
-      <span>
-        <strong>جاري تجهيز الصورة</strong>
-        <small>يرجى الانتظار...</small>
-      </span>
-    `;
-
-  }
-
-
-  try {
-
-
-    /* ---------------------------------------------
-       انتظار الشعار حتى يكتمل تحميله
-    ---------------------------------------------- */
-
-    await waitForImages(cert.node);
-
-
-    /*
-     * المقاس الأصلي للشهادة:
-     *
-     * 1050 × 742
-     *
-     * نستخدم scale = 3
-     *
-     * الناتج:
-     *
-     * 3150 × 2226
-     *
-     * جودة ممتازة للطباعة والحفظ.
-     */
-
-    const canvas = await html2canvas(
-      cert.node,
-      {
-
-        scale: 3,
-
-        useCORS: true,
-
-        allowTaint: false,
-
-        backgroundColor: '#FCFBF8',
-
-        logging: false,
-
-        imageTimeout: 20000,
-
-        width: cert.node.offsetWidth,
-
-        height: cert.node.offsetHeight,
-
-        scrollX: 0,
-
-        scrollY: 0,
-
-        windowWidth:
-          document.documentElement.clientWidth,
-
-        windowHeight:
-          document.documentElement.clientHeight
-
-      }
-    );
-
-
-    /* ---------------------------------------------
-       تحويل Canvas إلى PNG
-    ---------------------------------------------- */
-
-    const blob = await new Promise(
-      function (resolve, reject) {
-
-        canvas.toBlob(
-          function (result) {
-
-            if (result) {
-              resolve(result);
-            } else {
-              reject(
-                new Error(
-                  'تعذر إنشاء ملف PNG'
-                )
-              );
-            }
-
-          },
-          'image/png'
-        );
-
-      }
-    );
-
-
-    /* ---------------------------------------------
-       إنشاء رابط التحميل
-    ---------------------------------------------- */
-
-    const url =
-      URL.createObjectURL(blob);
-
-
-    const link =
-      document.createElement('a');
-
-
-    link.href = url;
-
-
-    /*
-     * اسم الملف
-     */
-
-    const name =
-      inputs.name && inputs.name.value
-        ? inputs.name.value.trim()
-        : 'شهادة';
-
-
-    link.download =
-      `شهادة-شكر-وتقدير-${name || 'زيد'}.png`;
-
-
-    document.body.appendChild(link);
-
-
-    link.click();
-
-
-    document.body.removeChild(link);
-
-
-    /* ---------------------------------------------
-       تنظيف الرابط المؤقت
-    ---------------------------------------------- */
-
-    setTimeout(function () {
-
-      URL.revokeObjectURL(url);
-
-    }, 1500);
-
-
-  } catch (error) {
-
-    console.error(
-      'Certificate image export error:',
-      error
-    );
-
-
-    alert(
-      'حدث خطأ أثناء إنشاء صورة الشهادة.\n' +
-      'يرجى المحاولة مرة أخرى.'
-    );
-
-
-  } finally {
-
-
-    /* ---------------------------------------------
-       إعادة الزر لحالته الطبيعية
-    ---------------------------------------------- */
-
-    if (downloadImageBtn) {
-
-      downloadImageBtn.disabled = false;
-
-      downloadImageBtn.classList.remove(
-        'is-loading'
-      );
-
-
-      downloadImageBtn.innerHTML =
-        originalButtonHTML;
-
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   ربط زر تحميل الصورة
-========================================================= */
-
-if (downloadImageBtn) {
-
-  downloadImageBtn.addEventListener(
-    'click',
-    downloadCertificateAsImage
-  );
-
-}
-
-
-/* =========================================================
-   منع سحب الشعار من الشهادة
-========================================================= */
-
-if (cert.logo) {
-
-  cert.logo.addEventListener(
-    'dragstart',
-    function (event) {
-
-      event.preventDefault();
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   منع النقر على الصورة من فتحها
-========================================================= */
-
-if (cert.logo) {
-
-  cert.logo.addEventListener(
-    'click',
-    function (event) {
-
-      event.preventDefault();
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   معالجة تغيير حجم النافذة
-========================================================= */
-
-window.addEventListener(
-  'resize',
-  function () {
-
-    /*
-     * لا نحتاج لإعادة رسم الشهادة.
-     * التصميم نفسه ثابت بمقاس A4 أفقي.
-     */
-
-  }
-);
+/
