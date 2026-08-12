@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap');
 
 /* =========================================================
-   Zaid Certificate — Final CSS
-   المقاس الحقيقي:
-   3508 × 2480 px
-   A4 Landscape بنسبة 1.414 : 1
+   Zaid Certificate Designer
+   FINAL CSS
+   المقاس النهائي: 3508 × 2480 px
+   النسبة: A4 Landscape
 ========================================================= */
 
 :root {
@@ -14,7 +14,7 @@
 
   --gold: #D4AF37;
   --gold-dark: #B8943F;
-  --gold-light: #E8D18A;
+  --gold-light: #E7D18A;
 
   --paper: #F8F9FA;
   --paper-white: #FFFFFF;
@@ -22,7 +22,7 @@
   --text: #2C3E50;
   --muted: #697681;
 
-  --border: rgba(31, 94, 137, .25);
+  --border: rgba(31, 94, 137, .22);
 }
 
 
@@ -31,9 +31,9 @@
 ========================================================= */
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 html,
@@ -47,11 +47,11 @@ body {
 
   background:
     radial-gradient(
-      circle at 15% 15%,
-      rgba(255,255,255,.9),
-      transparent 30%
+      circle at 20% 15%,
+      rgba(255,255,255,.95),
+      transparent 32%
     ),
-    #d8e0e6;
+    #d9e1e7;
 
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
@@ -59,7 +59,7 @@ body {
 
 
 /* =========================================================
-   التخطيط العام
+   لوحة التحكم
 ========================================================= */
 
 .main-container {
@@ -74,21 +74,15 @@ body {
 
 
 /* =========================================================
-   لوحة التحكم
+   CONTROL PANEL
 ========================================================= */
 
 .controls {
-  width: 340px;
-  flex: 0 0 340px;
-
+  width: 330px;
+  min-width: 330px;
   height: fit-content;
 
-  position: sticky;
-  top: 24px;
-
   padding: 22px;
-
-  direction: rtl;
 
   background: rgba(255,255,255,.98);
 
@@ -96,37 +90,44 @@ body {
   border-radius: 12px;
 
   box-shadow:
-    0 15px 40px rgba(30,55,72,.12),
-    0 3px 8px rgba(30,55,72,.06);
+    0 12px 35px rgba(30,50,65,.12),
+    0 2px 8px rgba(30,50,65,.05);
+
+  position: sticky;
+  top: 24px;
+
+  direction: rtl;
 }
 
 
 /* =========================================================
-   رأس لوحة التحكم
+   رأس اللوحة
 ========================================================= */
 
 .panel-header {
   display: flex;
   align-items: center;
+
   gap: 13px;
 
   padding-bottom: 18px;
   margin-bottom: 20px;
 
-  border-bottom: 1px solid #e5eaee;
+  border-bottom: 1px solid #e4e9ed;
 }
 
 .panel-badge {
   width: 48px;
   height: 48px;
 
+  flex: 0 0 48px;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  flex-shrink: 0;
-
   color: #fff;
+
   background: var(--primary);
 
   border-radius: 9px;
@@ -136,7 +137,7 @@ body {
   font-weight: 700;
 
   box-shadow:
-    0 7px 16px rgba(31,94,137,.22);
+    0 6px 15px rgba(31,94,137,.22);
 }
 
 .panel-header h2 {
@@ -148,9 +149,10 @@ body {
 }
 
 .panel-header p {
-  margin-top: 3px;
+  margin-top: 4px;
 
   color: var(--muted);
+
   font-size: 11px;
 }
 
@@ -160,15 +162,16 @@ body {
 ========================================================= */
 
 .control-section {
-  padding-bottom: 18px;
   margin-bottom: 18px;
+  padding-bottom: 18px;
 
-  border-bottom: 1px solid #e7ecef;
+  border-bottom: 1px solid #e9edf0;
 }
 
 .section-title {
   display: flex;
   align-items: center;
+
   gap: 9px;
 
   margin-bottom: 15px;
@@ -181,8 +184,8 @@ body {
 }
 
 .section-icon {
-  width: 29px;
-  height: 29px;
+  width: 30px;
+  height: 30px;
 
   display: flex;
   align-items: center;
@@ -190,10 +193,10 @@ body {
 
   color: var(--primary);
 
-  background: #edf4f8;
+  background: #eef4f8;
 
   border: 1px solid rgba(31,94,137,.15);
-  border-radius: 6px;
+  border-radius: 7px;
 
   font-family: 'Tajawal', sans-serif;
   font-size: 10px;
@@ -231,9 +234,10 @@ body {
   padding: 11px 12px;
 
   color: var(--text);
+
   background: #fff;
 
-  border: 1px solid #d4dde3;
+  border: 1px solid #d4dde4;
   border-radius: 7px;
 
   outline: none;
@@ -241,11 +245,13 @@ body {
   font-family: 'Tajawal', sans-serif;
   font-size: 12px;
 
-  transition: .2s ease;
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease;
 }
 
 .form-group textarea {
-  min-height: 125px;
+  min-height: 150px;
 
   resize: vertical;
 
@@ -257,7 +263,7 @@ body {
   border-color: var(--primary);
 
   box-shadow:
-    0 0 0 3px rgba(31,94,137,.08);
+    0 0 0 3px rgba(31,94,137,.09);
 }
 
 
@@ -268,7 +274,7 @@ body {
 .upload-box {
   position: relative;
 
-  min-height: 95px;
+  min-height: 100px;
 
   display: flex;
   align-items: center;
@@ -276,7 +282,7 @@ body {
 
   background: #fafcfd;
 
-  border: 1px dashed #b7c6d0;
+  border: 1px dashed #b8c7d0;
   border-radius: 8px;
 
   overflow: hidden;
@@ -285,7 +291,8 @@ body {
 }
 
 .upload-box:hover {
-  background: #f4f9fc;
+  background: #f5f9fb;
+
   border-color: var(--primary);
 }
 
@@ -303,19 +310,18 @@ body {
 
 .upload-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  flex-direction: column;
-
-  gap: 3px;
+  gap: 4px;
 
   pointer-events: none;
 }
 
 .upload-icon {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
 
   display: flex;
   align-items: center;
@@ -329,22 +335,24 @@ body {
 
   border-radius: 50%;
 
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .upload-content strong {
   color: var(--primary);
+
   font-size: 11px;
 }
 
 .upload-content small {
   color: #8a969f;
+
   font-size: 9px;
 }
 
 
 /* =========================================================
-   صف الحقول
+   صف البيانات
 ========================================================= */
 
 .form-row {
@@ -364,8 +372,14 @@ body {
 .action-buttons {
   display: flex;
   flex-direction: column;
+
   gap: 9px;
 }
+
+
+/* =========================================================
+   زر الطباعة
+========================================================= */
 
 .btn-print,
 .btn-image {
@@ -375,9 +389,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  gap: 10px;
-
-  padding: 12px;
+  gap: 11px;
 
   border-radius: 8px;
 
@@ -385,11 +397,17 @@ body {
 
   font-family: 'Tajawal', sans-serif;
 
-  transition: .2s ease;
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    border-color .2s ease;
 }
 
 .btn-print {
+  padding: 13px;
+
   color: #fff;
+
   background: var(--primary);
 
   border: 0;
@@ -403,43 +421,27 @@ body {
   transform: translateY(-1px);
 }
 
-.btn-image {
-  color: var(--primary);
-  background: #fff;
-
-  border: 1px solid rgba(31,94,137,.28);
-}
-
-.btn-image:hover {
-  background: #f2f8fb;
-
-  border-color: var(--primary);
-
-  transform: translateY(-1px);
-}
-
-.btn-print:active,
-.btn-image:active {
+.btn-print:active {
   transform: translateY(0);
 }
 
 .btn-print:disabled,
 .btn-image:disabled {
-  opacity: .65;
+  opacity: .6;
   cursor: wait;
 }
 
 .button-icon {
-  font-size: 20px;
+  font-size: 21px;
 }
 
 .btn-print strong,
 .btn-image strong {
   display: block;
 
-  text-align: right;
-
   font-size: 12px;
+
+  text-align: right;
 }
 
 .btn-print small,
@@ -448,13 +450,40 @@ body {
 
   margin-top: 2px;
 
-  text-align: right;
-
   font-size: 9px;
+
+  text-align: right;
 }
 
 .btn-print small {
-  color: rgba(255,255,255,.72);
+  color: rgba(255,255,255,.75);
+}
+
+
+/* =========================================================
+   زر الصورة
+========================================================= */
+
+.btn-image {
+  padding: 12px;
+
+  color: var(--primary);
+
+  background: #fff;
+
+  border: 1px solid rgba(31,94,137,.27);
+}
+
+.btn-image:hover {
+  background: #f3f8fb;
+
+  border-color: var(--primary);
+
+  transform: translateY(-1px);
+}
+
+.btn-image:active {
+  transform: translateY(0);
 }
 
 .btn-image small {
@@ -463,6 +492,7 @@ body {
 
 .btn-image.is-loading {
   pointer-events: none;
+
   opacity: .65;
 }
 
@@ -473,24 +503,25 @@ body {
 
 .preview-area {
   flex: 1;
+
   min-width: 0;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  padding: 5px;
+  padding: 4px;
 
   overflow: auto;
 }
 
 .preview-label {
-  width: 1050px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 1050px;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
   margin-bottom: 10px;
 
@@ -503,28 +534,27 @@ body {
 
 /* =========================================================
    الشهادة
-   المقاس الحقيقي:
-   3508 × 2480 px
-
-   النسبة:
-   3508 / 2480 = 1.4145
-
-   وهي شهادة عرضية فعلًا.
+   النسبة الحقيقية:
+   3508 : 2480
 ========================================================= */
 
 .certificate {
   position: relative;
 
-  width: 3508px;
-  height: 2480px;
+  /*
+   * حجم المعاينة على الشاشة.
+   *
+   * الصورة النهائية بالتصدير:
+   * 3508 × 2480
+   */
 
-  min-width: 3508px;
-  min-height: 2480px;
+  width: 1050px;
+  height: 742px;
 
-  max-width: none;
-  max-height: none;
+  min-width: 1050px;
+  min-height: 742px;
 
-  flex: 0 0 3508px;
+  flex: 0 0 1050px;
 
   overflow: hidden;
 
@@ -534,12 +564,12 @@ body {
   print-color-adjust: exact !important;
 
   box-shadow:
-    0 25px 70px rgba(24,45,60,.25);
+    0 20px 50px rgba(25,45,60,.23);
 }
 
 
 /* =========================================================
-   الخلفية
+   خلفية الشهادة
 ========================================================= */
 
 .certificate-background {
@@ -550,11 +580,13 @@ body {
   height: 100%;
 
   pointer-events: none;
+
+  overflow: hidden;
 }
 
 
 /* =========================================================
-   خلفية لونية ناعمة
+   خلفيات هندسية ناعمة
 ========================================================= */
 
 .certificate-background::before {
@@ -564,18 +596,15 @@ body {
   inset: 0;
 
   background:
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(31,94,137,.025),
-      transparent 48%
-    ),
     linear-gradient(
       135deg,
-      rgba(31,94,137,.035),
+      rgba(31,94,137,.045),
       transparent 28%,
       transparent 72%,
-      rgba(212,175,55,.025)
+      rgba(31,94,137,.045)
     );
+
+  pointer-events: none;
 }
 
 
@@ -589,44 +618,43 @@ body {
   border-radius: 50%;
 
   pointer-events: none;
+
+  filter: blur(30px);
 }
 
 .glow-top {
-  width: 900px;
-  height: 900px;
+  width: 300px;
+  height: 300px;
 
-  top: -650px;
-  right: -300px;
+  top: -190px;
+  right: -110px;
 
-  background: rgba(31,94,137,.07);
-
-  filter: blur(100px);
+  background:
+    rgba(31,94,137,.08);
 }
 
 .glow-center {
-  width: 1500px;
-  height: 500px;
+  width: 520px;
+  height: 220px;
 
-  top: 950px;
+  top: 50%;
   left: 50%;
 
-  transform: translateX(-50%);
+  transform: translate(-50%,-50%);
 
-  background: rgba(31,94,137,.025);
-
-  filter: blur(120px);
+  background:
+    rgba(31,94,137,.025);
 }
 
 .glow-bottom {
-  width: 850px;
-  height: 850px;
+  width: 300px;
+  height: 300px;
 
-  bottom: -600px;
-  left: -300px;
+  bottom: -200px;
+  left: -100px;
 
-  background: rgba(212,175,55,.055);
-
-  filter: blur(100px);
+  background:
+    rgba(212,175,55,.055);
 }
 
 
@@ -637,8 +665,8 @@ body {
 .pattern {
   position: absolute;
 
-  width: 650px;
-  height: 650px;
+  width: 230px;
+  height: 230px;
 
   opacity: .045;
 
@@ -646,110 +674,5 @@ body {
     repeating-linear-gradient(
       45deg,
       var(--primary) 0,
-      var(--primary) 3px,
-      transparent 3px,
-      transparent 45px
-    );
-
-  transform: rotate(45deg);
-}
-
-.pattern-top {
-  top: -470px;
-  right: -270px;
-}
-
-.pattern-bottom {
-  bottom: -470px;
-  left: -270px;
-}
-
-
-/* =========================================================
-   الخطوط الجانبية
-========================================================= */
-
-.ornament {
-  position: absolute;
-
-  top: 210px;
-  bottom: 210px;
-
-  width: 3px;
-
-  opacity: .6;
-
-  background:
-    linear-gradient(
-      to bottom,
-      transparent,
-      var(--gold),
-      transparent
-    );
-}
-
-.ornament-right {
-  right: 105px;
-}
-
-.ornament-left {
-  left: 105px;
-}
-
-
-/* =========================================================
-   الشرائط الزرقاء
-========================================================= */
-
-.brand-strip {
-  position: absolute;
-
-  top: 0;
-  bottom: 0;
-
-  width: 10px;
-
-  background: var(--primary);
-}
-
-.brand-strip-right {
-  right: 0;
-}
-
-.brand-strip-left {
-  left: 0;
-}
-
-
-/* =========================================================
-   الإطار الخارجي
-========================================================= */
-
-.cert-frame {
-  position: absolute;
-
-  inset: 55px;
-
-  padding: 22px;
-
-  border: 6px solid var(--primary);
-
-  z-index: 3;
-}
-
-.cert-frame::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 14px;
-
-  border: 3px solid var(--gold);
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   الإطار الداخلي
-=========================================================
+      var(--primary) 1px,
+      transparent 1
