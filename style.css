@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Aref+Ruqaa:wght@400;700&display=swap');
 
 :root {
-  /* ألوان مستوحاة من شعار بوتات زيد */
   --primary-blue: #2b76a6; 
   --dark-blue: #164260;
   --bg-color: #e2e8f0;
@@ -88,23 +87,20 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  overflow-x: auto;
 }
 
 .certificate {
   position: relative;
   width: 1050px;
-  height: 742px; /* نسبة أبعاد ورق A4 عرضي */
+  height: 742px;
   background: #ffffff;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   border-radius: 4px;
-  /* لإجبار المتصفح على طباعة الألوان والخلفيات */
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
 
-/* الأشكال الهندسية في الزوايا */
 .cert-background {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -113,14 +109,12 @@ body {
 }
 
 .shape { position: absolute; }
-/* الزاوية العلوية اليمنى */
 .shape-1 {
   top: 0; right: 0;
   width: 350px; height: 350px;
   background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
   clip-path: polygon(100% 0, 0 0, 100% 100%);
 }
-/* الزاوية السفلية اليسرى */
 .shape-2 {
   bottom: 0; left: 0;
   width: 350px; height: 350px;
@@ -128,7 +122,6 @@ body {
   clip-path: polygon(0 0, 0 100%, 100% 100%);
 }
 
-/* إطار داخلي للشهادة */
 .cert-background::after {
   content: '';
   position: absolute;
@@ -139,7 +132,6 @@ body {
   z-index: 1;
 }
 
-/* محتوى الشهادة الفعلي */
 .cert-content {
   position: relative;
   z-index: 2;
@@ -152,7 +144,7 @@ body {
 }
 
 .cert-header { margin-top: 10px; }
-.cert-header .logo { max-height: 90px; margin-bottom: 15px; }
+.cert-header .logo { max-height: 90px; margin-bottom: 15px; display: none; } /* مخفي افتراضياً */
 .cert-header h1 {
   font-family: 'Aref Ruqaa', serif;
   font-size: 60px;
@@ -216,21 +208,45 @@ body {
   transform: rotate(-15deg);
 }
 
-/* ----------------- إعدادات الطباعة الدقيقة (لحل مشكلة الألوان والحدود) ----------------- */
+/* ----------------- تجاوب الشاشة للهواتف المحمولة ----------------- */
+@media (max-width: 900px) {
+  .main-container {
+    flex-direction: column;
+    padding: 10px;
+  }
+  .controls {
+    max-width: 100%;
+    width: 100%;
+  }
+  .preview-area {
+    width: 100%;
+    overflow-x: auto; /* يتيح سحب الشهادة بأصبعك يميناً ويساراً */
+    padding-bottom: 20px;
+    justify-content: flex-start;
+  }
+  .certificate {
+    transform: scale(0.35); /* تصغير المعاينة لتناسب الهاتف */
+    transform-origin: top right;
+    margin-bottom: -480px; /* تعويض مساحة التصغير */
+  }
+}
+
+/* ----------------- إعدادات الطباعة الدقيقة ----------------- */
 @media print {
   @page {
-    size: A4 landscape; /* إجبار حجم الصفحة ليكون A4 بالعرض */
-    margin: 0; /* إزالة هوامش المتصفح الافتراضية */
+    size: A4 landscape;
+    margin: 0;
   }
   body { background: white; margin: 0; padding: 0; }
   .main-container { padding: 0; display: block; }
   .no-print { display: none !important; }
   .preview-area { padding: 0; margin: 0; overflow: visible; display: block; }
   .certificate {
+    transform: none; /* إلغاء التصغير عند الطباعة */
+    margin: 0;
     width: 100%;
     height: 100vh;
     box-shadow: none;
     border-radius: 0;
-    margin: 0;
   }
 }
